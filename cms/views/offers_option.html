@@ -1,0 +1,45 @@
+﻿
+	<div class="center">
+		<h1>{'Offers option'|lang}</h1>
+		<p>{'Here you can edit the offers options'|lang}</p>
+		<br>
+		<p><a href="?action=offers_options" title="{'Back to list offers options'|lang}">{'Back to list offers options'|lang}</a></p>
+		<br>
+		<form method="post" action="">
+			{if isset($offers_option)}
+				<input type="hidden" name="action" value="edit_option">
+				<input type="hidden" name="id" value="{$offers_option.id}">
+			{else}
+				<input type="hidden" name="action" value="add_option">
+			{/if}
+			<h2><label>{'The name'|lang}: <input type="text" name="name" required maxlength="128" placeholder="{'The name'|lang}" title="{'The name'|lang}" {if isset($offers_option)}value="{$offers_option.name}"{/if}></label></h2>
+			<h2><label><input type="checkbox" name="required" {if isset($offers_option) && $offers_option.required}checked{/if} title="{'Check f the field should be required'|lang}">{'Required field'|lang}</label></h2>
+			{if isset($offers_options_kinds)}
+				<h2><label>{'Kind'|lang}: 
+					<select name="kind" required class="offers_option_select">
+						{foreach from=$offers_options_kinds item=item key=key}
+							<option value="{$key}" {if isset($offers_option) && $offers_option.kind==$key}selected{/if}>{$item}</option>
+						{/foreach}
+					</select>
+				</label></h2>
+			{/if}
+			<label class="offers_option_label">{'Enter after the coma available choices'|lang}: <input type="text" placeholder="{'Enter after the coma available choices'|lang}" title="{'Enter after the coma available choices'|lang}" required name="select_choices" {if isset($offers_option) && $offers_option.kind=='select'}value="{$offers_option.select_choices}"{/if}></label>
+			<br>
+			{if isset($offers_type)}
+				<h3>{'Types of offers in which the display'|lang}:</h3>
+				<label><input type="checkbox" name="type_all" title="{'Check this box if you want to show this option in all types of offers'|lang}" class="offers_option_all_type" {if !isset($offers_option) || $offers_option.type_all}checked{/if}>{'All types of offers'|lang}</label><br>
+				<div class="offers_option_all_type_div parent_select_checkbox" {if !isset($offers_option) || $offers_option.type_all}style="display: none"{/if}>
+					<label><input type="checkbox" class="select_checkbox" title="{'Click to select or deselect all items'|lang}"><b>{'Select / deselect all'|lang}</b></label>
+					{foreach key=key item=item from=$offers_type}
+						<label><input type="checkbox" name="types[]" value="{$item.id}" {if isset($offers_option.types) && $item.id|in_array:$offers_option.types}checked{/if}>{$item.name}</label>	
+					{/foreach}
+				</div>
+			{else}
+				<input type="hidden" name="type_all" value="1">
+			{/if}
+			<br>
+			<input type="submit" value="{'Save'|lang}">
+		</form>
+	</div>
+	
+

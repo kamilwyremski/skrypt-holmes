@@ -1,0 +1,44 @@
+﻿		
+	<div class="center">
+		<h1>{'Logs mails'|lang}</h1>
+		<p>{'Here you can see logs mails send from serwer'|lang}</p>
+		<br><br>
+		{if isset($logs_mails)}
+			<table class="table">
+				<tr>
+					<td colspan="10">{'Logs mails'|lang}</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>{'Receiver'|lang}
+						<a href="?{$pagination.page_url.sort_cms}&sort=receiver" title="{'Sort by receiver'|lang}" class="icon sort_up"></a><a href="?{$pagination.page_url.sort_cms}&sort=receiver&sort_desc" title="{'Sort descending by receiver'|lang}" class="icon sort_down"></a>
+					</td>
+					<td>{'Action'|lang}
+						<a href="?{$pagination.page_url.sort_cms}&sort=action" title="{'Sort by action'|lang}" class="icon sort_up"></a><a href="?{$pagination.page_url.sort_cms}&sort=action&sort_desc" title="{'Sort descending by action'|lang}" class="icon sort_down"></a>
+					</td>
+					<td>{'IP'|lang}
+						<a href="?{$pagination.page_url.sort_cms}&sort=ip" title="{'Sort by IP'|lang}" class="icon sort_up"></a><a href="?{$pagination.page_url.sort_cms}&sort=ip&sort_desc" title="{'Sort descending by IP'|lang}" class="icon sort_down"></a>
+					</td>
+					<td>{'Date'|lang}
+						<a href="?{$pagination.page_url.sort_cms}&sort=date" title="{'Sort by date'|lang}" class="icon sort_up"></a><a href="?{$pagination.page_url.sort_cms}&sort=date&sort_desc" title="{'Sort descending by date'|lang}" class="icon sort_down"></a>
+					</td>
+				</tr>
+				{foreach key=key item=item from=$logs_mails name=logs_mails}
+					<tr>
+						<td class="center">{$smarty.foreach.logs_mails.iteration+$pagination.limit_start}</td>
+						<td>{if $_CMS_TEST_MODE_}TEST{else}<a href="mailto:{$item.receiver}" title="{'Write to:'|lang} {$item.receiver}">{$item.receiver}</a>{/if}</td>
+						<td>{$item.action}</td>
+						<td class="center">{$item.ip}</td>
+						<td class="center"><b>{$item.date|date_format:"%d-%m-%Y"}</b><br>{$item.date|date_format:"%H:%M"}</td>
+					</tr>
+				{/foreach}		
+			</table>
+			
+			{include file="pagination.tpl"}
+			
+		{else}
+			<h2>{'Nothing found'|lang}</h2>
+		{/if}
+	</div>
+	
+

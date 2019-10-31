@@ -1,0 +1,14 @@
+
+
+{include file="top.tpl"}
+
+<div class="text-center container page_box">
+	<h2>{'Error 404'|lang}</h2>
+	{if $settings.ads_1}<div class="ads">{$settings.ads_1}</div>{/if}
+	<img src="{$settings.base_url}/views/{$settings.template}/images/404.png" alt="Error 404" class="img-responsive" style="margin: 40px auto">
+	<h3>{'Page does not exist'|lang}</h3>
+	<p>{'The page you are looking for has been moved, deleted, or simply never existed.'|lang}</p>
+</div>
+
+{include file="footer.tpl"}
+

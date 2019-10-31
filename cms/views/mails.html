@@ -1,0 +1,46 @@
+	<div class="center">
+		<h1>{'Mails'|lang}</h1>
+		<p>{'Edit the content of messages sent from your site'|lang}</p>
+		<h3>{'You can use these tags'|lang}:</h3>
+		<ul id="ul_mails">
+			<li><b>{ldelim}title{rdelim}</b> - {'Title of website'|lang}</li>
+			<li><b>{ldelim}base_url{rdelim}</b> - {'Base URL'|lang}</li>
+			<li><b>{ldelim}link_logo{rdelim}</b> - {'Link to logo'|lang}</li>
+			<li><b>{ldelim}date{rdelim}</b> - {'The current date'|lang}</li>
+			<li><b>{ldelim}username{rdelim}</b> - {'Username'|lang}</li>
+			<li><b>{ldelim}activation_link{rdelim}</b> - {'Activation link'|lang}</li>
+			<li><b>{ldelim}password{rdelim}</b> - {'Hasło'|lang}</li>
+			<li><b>{ldelim}reset_password_link{rdelim}</b> - {'Link to generate new password'|lang}</li>
+			<li><b>{ldelim}name{rdelim}</b> - {'Name of the sender'|lang}</li>
+			<li><b>{ldelim}email{rdelim}</b> - {'Email of the sender'|lang}</li>
+			<li><b>{ldelim}message{rdelim}</b> - {'Message from the sender'|lang}</li>
+			<li><b>{ldelim}offer_name{rdelim}</b> - {'Offer name'|lang}</li>
+			<li><b>{ldelim}offer_url{rdelim}</b> - {'Offer URL'|lang}</li>
+			<li><b>{ldelim}offer_edit_link{rdelim}</b> - {'Link to edit offer'|lang}</li>
+		</ul>
+		<br><br>
+		<form action="" method="post">
+			<input type="hidden" name="action" value="save_mails">
+			{foreach from=$mails item=item key=key}
+				<h2>{$item.full_name|lang}</h2>
+				<input type="text" name="mails[{$item.name}][subject]" value="{$item.subject}" title="{'Enter the message title'|lang}" placeholder="{'Title'|lang}">
+				<textarea name="mails[{$item.name}][message]" id="message_{$item.name}">{$item.message}</textarea>
+				<script>
+					{literal}
+						var roxyFileman = 'js/ckeditor/fileman/index.html'; 
+						$(function(){
+							CKEDITOR.replace( '{/literal}message_{$item.name}{literal}',{height: '200px',
+								filebrowserBrowseUrl:roxyFileman,
+								filebrowserImageBrowseUrl:roxyFileman+'?type=image',
+								removeDialogTabs: 'link:upload;image:upload'}); 
+						});
+					{/literal}
+				</script>
+				<br>
+			{/foreach}
+			<br><br>
+			<input type="submit" value="{'Save'|lang}">
+		</form>
+	</div>
+	
+	

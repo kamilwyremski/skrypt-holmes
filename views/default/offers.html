@@ -1,0 +1,84 @@
+
+{include file="top.tpl"}
+
+<div class="page_box background_grey">
+	<div class="container">
+		<h1>{'Offers'|lang}</h1>
+	</div>
+	{if $settings.google_maps && isset($offers_show_map)}
+		<div id="google_maps"></div>
+		<script>
+			{literal}
+			function displayMap() {
+				autocomplete = new google.maps.places.Autocomplete((document.getElementById('search_main_address')), {types: ['geocode']});
+				autocomplete2 = new google.maps.places.Autocomplete((document.getElementById('search_box_address')), {types: ['geocode']});
+				var map = new google.maps.Map(document.getElementById('google_maps'), {
+						center: new google.maps.LatLng({/literal}{$settings.google_maps_lat},{$settings.google_maps_long}{literal}),
+						zoom: 6,
+						mapTypeId: google.maps.MapTypeId.ROADMAP,
+						scrollwheel:  false
+					});
+				{/literal}
+					var locations = [
+						{foreach item=item key=key from=$offers name=offers}
+							{if $item.address_lat!=0 && $item.address_long!=0}
+								['{$item.name|replace:"'":""|replace:'"':''}', {$item.address_lat}, {$item.address_long}, {$smarty.foreach.offers.iteration}, "<a href='{$settings.base_url}/{$item.id},{$item.name_url}' title='{$item.name|replace:"'":""|replace:'"':''}'><p class='google_maps_p'>{$item.name|replace:"'":""|replace:'"':''}</p>{if $item.thumb}<img src='upload/photos/{$item.thumb}' alt='{$item.name|replace:"'":""|replace:'"':''}' onerror='this.src=\'{$settings.base_url}/views/{$settings.template}/images/no_image.png\'' class='google_maps_img'>{/if}</a>"]{if !$smarty.foreach.offers.last},{/if}
+							{/if}
+						{/foreach}
+					]
+				{literal}
+					var punkt, before_infoWindows;
+					var bounds = new google.maps.LatLngBounds();
+					for (i = 0; i < locations.length; i++) {  
+						latlngset = new google.maps.LatLng(locations[i][1], locations[i][2]);
+						var punkt = new google.maps.Marker({  
+							map: map, title: locations[i][0] , position: latlngset  
+						});
+						var content = locations[i][4];
+						var infowindow = new google.maps.InfoWindow()
+						google.maps.event.addListener(punkt,'click', (function(punkt,content,infowindow){ 
+							return function() {
+								if(before_infoWindows){
+									before_infoWindows.close();
+								}
+								infowindow.setContent(content);
+								infowindow.open(map,punkt);
+								before_infoWindows = infowindow; 
+							};
+						})(punkt,content,infowindow)); 
+						bounds.extend(punkt.position);
+					}
+					google.maps.event.addListener(map, 'zoom_changed', function() {
+						zoomChangeBoundsListener = 
+							google.maps.event.addListener(map, 'bounds_changed', function(event) {
+								if (this.getZoom() > 16 && this.initialZoom == true) {
+									this.setZoom(16);
+									this.initialZoom = false;
+								}
+							google.maps.event.removeListener(zoomChangeBoundsListener);
+						});
+					});
+					map.initialZoom = true;
+					map.fitBounds(bounds);
+				}
+			{/literal}
+		</script>
+	{/if}
+	<div class="container">
+		{include file="search_main.tpl"}
+	</div>
+	{if $settings.ads_1}<div class="ads">{$settings.ads_1}</div>{/if}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-9">
+				{include file="offers.tpl"}
+			</div>
+			<div class="col-md-3">
+				{include file="search_box.tpl"}
+			</div>
+		</div>
+	</div>
+</div>
+
+{include file="footer.tpl"}
+

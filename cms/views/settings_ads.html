@@ -1,0 +1,24 @@
+	<div class="center">
+		<h1>{'Ads settings'|lang}</h1>
+		<p>{'Here you can edit the ads of the service'|lang}</p>
+		<br><br>
+		<form action="" method="post">
+			<input type="hidden" name="action" value="save_settings_ads">
+			<h2>{'Ad code 1'|lang}:</h2>
+			<textarea name="ads_1" title="{'Ad code 1'|lang}">{$settings.ads_1}</textarea>
+			<h2>{'Ad code 2'|lang}:</h2>
+			<textarea name="ads_2" title="{'Ad code 2'|lang}">{$settings.ads_2}</textarea>
+			<h2>{'Ad code 3'|lang}:</h2>
+			<textarea name="ads_3" title="{'Ad code 3'|lang}">{$settings.ads_3}</textarea>
+			<h2>{'Ad code 4'|lang}:</h2>
+			<textarea name="ads_4" title="{'Ad code 4'|lang}">{$settings.ads_4}</textarea>
+			<h2>{'Ad code side 1'|lang}:</h2>
+			<textarea name="ads_side_1" title="{'Ad code side 1'|lang}">{$settings.ads_side_1}</textarea>
+			<h2>{'Ad code side 2'|lang}:</h2>
+			<textarea name="ads_side_2" title="{'Ad code side 2'|lang}">{$settings.ads_side_2}</textarea>
+			<br><br>
+			<input type="submit" value="{'Save'|lang}">
+		</form>
+	</div>
+	
+	

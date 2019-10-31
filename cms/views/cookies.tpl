@@ -1,0 +1,5 @@
+
+<div id="cookies-message-container"><div id="cookies-message" style="color: white; padding: 5px 0px; font-size: 11px; line-height: 14px; text-align: center; position: fixed; top: -40px; left:0; right:0; margin: auto; background-color: rgba(0,0,0,0.6); border: solid 1px white; border-top:0; width: 100%; max-width: 630px; z-index: 100000; box-shadow: 0 0 5px rgba(0,0,0,0.4);">{'This site uses cookies, so that our service may work better.'|lang}<a href="javascript:WHCloseCookiesWindow();" id="accept-cookies-checkbox" name="accept-cookies" style="transition: all 0.5s; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-left: 10px; text-decoration: none; cursor: pointer;">{'I accept'|lang}</a></div></div>
+{literal}
+<style>#accept-cookies-checkbox{background-color: #00AFBF; color: #FFF; border: solid 1px #00AFBF;}#accept-cookies-checkbox:hover{background-color: transparent; border-color: white}</style>
+{/literal}

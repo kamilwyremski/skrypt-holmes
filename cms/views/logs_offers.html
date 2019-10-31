@@ -1,0 +1,41 @@
+﻿		
+	<div class="center">
+		<h1>{'Logs offers'|lang}</h1>
+		<p>{'Here you can see logs offers'|lang}</p>
+		<br><br>
+		{if isset($logs_offers)}
+			<table class="table">
+				<tr>
+					<td colspan="10">{'Logs offers'|lang}</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>{'Offer'|lang}</td>
+					<td>{'User'|lang}</td>
+					<td>{'IP'|lang}
+						<a href="?{$pagination.page_url.sort_cms}&sort=ip" title="{'Sort by IP'|lang}" class="icon sort_up"></a><a href="?{$pagination.page_url.sort_cms}&sort=ip&sort_desc" title="{'Sort descending by IP'|lang}" class="icon sort_down"></a>
+					</td>
+					<td>{'Date'|lang}
+						<a href="?{$pagination.page_url.sort_cms}&sort=date" title="{'Sort by date'|lang}" class="icon sort_up"></a><a href="?{$pagination.page_url.sort_cms}&sort=date&sort_desc" title="{'Sort descending by date'|lang}" class="icon sort_down"></a>
+					</td>
+				</tr>
+					
+				{foreach key=key item=item from=$logs_offers name=logs_offers}
+					<tr>
+						<td class="center">{$smarty.foreach.logs_offers.iteration+$pagination.limit_start}</td>
+						<td><a href="../{$item.offer.id},{$item.offer.name_url}" title="{$item.offer.name}" target="_blank">{$item.offer.name}</a></td>
+						<td>{if isset($item.user)}<a href="../{$links.profile}/{$item.user.username}" title="{'Profile of'|lang}: {$item.user.username}" target="_blank">{$item.user.username}</a> - {if $_CMS_TEST_MODE_}TEST{else}<a href="mailto:{$item.user.email}" title="{'Write to:'|lang} {$item.user.email}">{$item.user.email}</a>{/if}{/if}</td>
+						<td class="center">{$item.ip}</td>
+						<td class="center"><b>{$item.date|date_format:"%d-%m-%Y"}</b><br>{$item.date|date_format:"%H:%M"}</td>
+					</tr>
+				{/foreach}		
+			</table>
+			
+			{include file="pagination.tpl"}
+			
+		{else}
+			<h2>{'Nothing found'|lang}</h2>
+		{/if}
+	</div>
+	
+

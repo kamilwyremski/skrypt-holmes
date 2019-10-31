@@ -1,0 +1,20 @@
+RewriteEngine On
+
+#RewriteCond %{HTTPS} !=on
+#RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /(.*)index\.php($|\ |\?)
+RewriteRule ^ /%1 [R=301,L]
+
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ http://%1%{REQUEST_URI} [R=301,QSA,NC,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^([a-z-_]+)/?$ index.php?action=$1 [NC,QSA,L]
+RewriteRule ^([0-9]+),(.*)/?$ index.php?action=offer&id=$1&name_url=$2 [NC,QSA,L]
+RewriteRule ^([a-z-_]+)/([0-9]+),(.*)/?$ index.php?action=$1&id=$2&name_url=$3 [NC,QSA,L]
+RewriteRule ^([a-z-_]+)/([a-z0-9-_]+)/?$ index.php?action=$1&name_url=$2 [NC,QSA,L]
+
+ErrorDocument 404 /index.php?action=404

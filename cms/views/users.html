@@ -1,0 +1,108 @@
+﻿		
+	<div class="center">
+		<h1>{'Users'|lang}</h1>
+		<p>{'Here you can see the users. Moderator can edit offers'|lang}</p>
+		<br>
+		<form action="" method="get">
+			<input type="hidden" name="action" value="users">
+			<input type="hidden" name="search">
+			<input type="text" name="username" title="{'Enter the username'|lang}" placeholder="{'Username'|lang}" {if isset($smarty.get.username)}value="{$smarty.get.username}"{/if}>
+			<input type="text" name="email" title="{'Enter the email'|lang}" placeholder="{'Email'|lang}" {if isset($smarty.get.email)}value="{$smarty.get.email}"{/if}>
+			<select name="active" title="{'Search by active users'|lang}">
+				<option value="">{'All users'|lang}</option>
+				<option value="yes" {if isset($smarty.get.active) && $smarty.get.active=='yes'}selected{/if}>{'Active users'|lang}</option>
+				<option value="no" {if isset($smarty.get.active) && $smarty.get.active=='no'}selected{/if}>{'Inactive users'|lang}</option>
+			</select>
+			<input type="submit" value="{'SEARCH!'|lang}">
+		</form>
+		<br>
+		{if isset($users)}
+			<table class="table parent_select_checkbox">
+				<tr>
+					<td colspan="20">{'Users'|lang}</td>
+				</tr>
+				<tr>
+					<td class="center"><input type="checkbox" class="select_checkbox" title="{'Select all'|lang}"></td>
+					<td class="center">{'ID'|lang}<br>
+						<a href="?{$pagination.page_url.sort_cms}&sort=id" title="{'Sort by ID'|lang}" class="icon sort_up"></a><a href="?{$pagination.page_url.sort_cms}&sort=id&sort_desc" title="{'Sort descending by ID'|lang}" class="icon sort_down"></a>
+					</td>
+					<td class="center">{'Activate'|lang}<br>
+						<a href="?{$pagination.page_url.sort_cms}&sort=active" title="{'Sort by active'|lang}" class="icon sort_up"></a><a href="?{$pagination.page_url.sort_cms}&sort=active&sort_desc" title="{'Sort descending by active'|lang}" class="icon sort_down"></a>
+					</td>
+					<td class="center">{'FB'|lang}<br>
+						<a href="?{$pagination.page_url.sort_cms}&sort=register_fb" title="{'Sort by register by Facebook'|lang}" class="icon sort_up"></a><a href="?{$pagination.page_url.sort_cms}&sort=register_fb&sort_desc" title="{'Sort descending by register by Facebook'|lang}" class="icon sort_down"></a>
+					</td>
+					<td>{'Username'|lang}<br>
+						<a href="?{$pagination.page_url.sort_cms}&sort=username" title="{'Sort by username'|lang}" class="icon sort_up"></a><a href="?{$pagination.page_url.sort_cms}&sort=username&sort_desc" title="{'Sort descending by username'|lang}" class="icon sort_down"></a>
+					</td>
+					<td>{'Email'|lang}<br>
+						<a href="?{$pagination.page_url.sort_cms}&sort=email" title="{'Sort by email'|lang}" class="icon sort_up"></a><a href="?{$pagination.page_url.sort_cms}&sort=email&sort_desc" title="{'Sort descending by email'|lang}" class="icon sort_down"></a>
+					</td>
+					<td class="center">{'Moderator'|lang}<br>
+						<a href="?{$pagination.page_url.sort_cms}&sort=moderator" title="{'Sort by moderator'|lang}" class="icon sort_up"></a><a href="?{$pagination.page_url.sort_cms}&sort=moderator&sort_desc" title="{'Sort descending by moderator'|lang}" class="icon sort_down"></a>
+					</td>
+					<td class="center">{'Amount offers'|lang}<br>({'active'|lang})</td>
+					<td class="center">{'Amount logins'|lang}<br>{'Last'|lang}</td>
+					<td>{'Activation date'|lang}
+						<a href="?{$pagination.page_url.sort_cms}&sort=activation_date" title="{'Sort by activation date'|lang}" class="icon sort_up"></a><a href="?{$pagination.page_url.sort_cms}&sort=activation_date&sort_desc" title="{'Sort descending by activation date'|lang}" class="icon sort_down"></a>
+						<br>
+						{'Activation IP'|lang}
+						<a href="?{$pagination.page_url.sort_cms}&sort=activation_ip" title="{'Sort by activation IP'|lang}" class="icon sort_up"></a><a href="?{$pagination.page_url.sort_cms}&sort=activation_ip&sort_desc" title="{'Sort descending by activation IP'|lang}" class="icon sort_down"></a>
+					</td>
+					<td>{'Registration date'|lang}
+						<a href="?{$pagination.page_url.sort_cms}&sort=date" title="{'Sort by registration date'|lang}" class="icon sort_up"></a><a href="?{$pagination.page_url.sort_cms}&sort=date&sort_desc" title="{'Sort descending by registration date'|lang}" class="icon sort_down"></a>
+						<br>
+						{'Registration IP'|lang}
+						<a href="?{$pagination.page_url.sort_cms}&sort=register_ip" title="{'Sort by registration IP'|lang}" class="icon sort_up"></a><a href="?{$pagination.page_url.sort_cms}&sort=register_ip&sort_desc" title="{'Sort descending by registration IP'|lang}" class="icon sort_down"></a>
+					</td>
+					<td class="center">{'Remove'|lang}</td>
+				</tr>
+					
+				{foreach key=key item=item from=$users name=users}
+					<tr>
+						<td class="center"><input type="checkbox" name="users[]" value="{$item.id}" form="form_selected_users"></td>
+						<td class="center">{$item.id}</td>
+						<td class="center">{if !$item.active}<a href="#" title="{'Activate user'|lang}" class="ajax icon icon_add" data-action="activate_user" data-id="{$item.id}"></a>{/if}</td>
+						<td class="center">{if $item.register_fb}<img src="images/fb-icon.gif" alt="Facebook">{/if}</td>
+						<td><b>{$item.username}</b></td>
+						<td>{if $_CMS_TEST_MODE_}TEST{else}<a href="mailto:{$item.email}" title="{'Write to:'|lang} {$item.email}">{$item.email}</a>{/if}</td>	
+						<td class="center">{if $item.moderator}<a href="#" title="{'Unset moderator'|lang}" class="ajax" data-action="unset_moderator" data-id="{$item.id}">{'YES'|lang}</b>{else}<a href="#" title="{'Set moderator'|lang}" class="ajax" data-action="set_moderator" data-id="{$item.id}" style="color: grey">{'NO'|lang}</a>{/if}</td>
+						<td class="center">{$item.amount_offers}<br>(<b>{$item.amount_active_offers}</b>)</td>
+						<td class="center"><b>{$item.amount_logins}</b><br>{$item.last_login|date_format:"%d-%m-%Y"}</td>
+						<td class="center">{$item.activation_date|date_format:"%d-%m-%Y"}<br>{$item.activation_ip}</td>
+						<td class="center">{$item.date|date_format:"%d-%m-%Y"}<br>{$item.register_ip}</td>
+						<td class="center"><a href="#remove_{$item.id}" title="{'Delete offer'|lang}" class="icon icon_remove open_dialog"></a></td>
+					</tr>
+					
+					<div class="dialog" id="remove_{$item.id}" data-title="{'Delete user'|lang}: {$item.username}">
+						<p>{'Are you sure you want to delete user'|lang}: "{$item.username}"?</p>
+						<p>{'All offers user will be deleted'|lang}</p>
+						<form method="post" action="">
+							<input type="hidden" name="action" value="remove_user">
+							<input type="hidden" name="id" value="{$item.id}">
+							<input type="reset"/>
+							<input type="submit"/>
+						</form>
+					</div>
+
+				{/foreach}		
+			</table>
+			<form method="post" action="" id="form_selected_users">
+				<p style="text-align:left">{'Selected'|lang}: 
+					<select name="action" required title="{'Select the appropriate action'|lang}">
+						<option value="">-- {'select'|lang} --</option>
+						<option value="remove_users">{'Remove users'|lang}</option>
+					</select> 
+					<input type="submit" value="{'Execute'|lang}!">
+				</p>
+			</form>
+			
+			{include file="pagination.tpl"}
+			
+		{else}
+		<h2>{'Nothing found'|lang}</h2>
+		{/if}
+		
+	</div>
+	
+

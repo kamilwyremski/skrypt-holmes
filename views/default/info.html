@@ -1,0 +1,24 @@
+
+{include file="top.tpl"}
+
+<div class="page_box">
+	<div class="container">
+
+		{if isset($info_page)}
+			<h2>{$info_page.name}</h2>
+			<p><a href="{$links.info}" title="{'Return to the list of pages'|lang}">{'Return to the list of pages'|lang}</a></p>
+			<br>
+			{$info_page.content}
+		{else}
+			<h2>{'Info'|lang}</h2>
+			<br>
+			{foreach from=$info item=item key=key}
+				<h3><a href="{if $item.page=='contact'}{$links.contact}{else}{$links.info}/{$item.id},{$item.name_url}{/if}" title="{$item.name}" class="list-group-item">{$item.name}</a></h3>
+			{/foreach}
+		{/if}
+
+	</div>
+</div>
+
+{include file="footer.tpl"}
+

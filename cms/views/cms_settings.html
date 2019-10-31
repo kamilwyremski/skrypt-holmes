@@ -1,0 +1,56 @@
+﻿
+	<div class="center">
+		<h1>{'CMS settings'|lang}</h1>
+		<h2>{'Change access data'|lang}</h2>
+		{if isset($info)}<p class="red">{$info}</p>{/if}
+		<form method="post" action="">
+			<input type="hidden" name="action" value="change_password">
+			<table id="cms_settings">
+				<tr>
+					<td class="right"><b>{'Username'|lang}:</b></td>
+					<td><input type="text" name="new_username" title="{'Enter a new login'|lang}" value="{$user_cms->user}" autofocus required></td>
+				</tr>
+				<tr>
+					<td class="right"><b>{'New password'|lang}:</b></td>
+					<td><input type="password" name="new_password" title="{'New password'|lang}" required></td>
+				</tr>	
+				<tr>
+					<td class="right"><b>{'Repeat new password'|lang}:</b></td>
+					<td><input type="password" name="repeat_new_password" title="{'Repeat new password'|lang}" required></td>
+				</tr>					
+			</table>
+			<div class="center">
+				<input type="submit" value="{'SAVE!'|lang}"/>
+			</div>
+		</form>
+		
+	{if isset($cms_logs)}
+		<br>
+		<h2>Logi logowania</h2>
+		<br>
+		<table class="table">
+			<tr>
+				<td colspan="5">{'Logs login'|lang}</td>
+			</tr>
+			<tr>
+				<td></td><td>{'Username'|lang}</td><td class="center">{'Logged'|lang}</td><td class="center">{'Date'|lang}</td><td>{'IP address'|lang}</td>
+			</tr>
+			{foreach key=key item=item from=$cms_logs name=cms_logs}
+				<tr>
+					<td>{$smarty.foreach.cms_logs.iteration}</td>
+					<td>{$item.user}</td>
+					<td class="center">{if $item.logged}<b>{'Yes'|lang}</b>{else}<span style="color:red">{'No'|lang}</span>{/if}</td>
+					<td class="center">{$item.date|date_format:"%H:%M"} / <b>{$item.date|date_format:"%d-%m-%Y"}</b></td>
+					<td>{$item.ip}</td>
+				</tr>
+			{/foreach}
+		</table>
+		<br>
+		<form action="" method="post">
+			<input type="hidden" name="action" value="cms_remove_logs">
+			<input type="submit" value="{'REMOVE LOGS'|LANG}">
+		</form>
+	</div>
+	{/if}
+	
+

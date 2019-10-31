@@ -1,0 +1,58 @@
+
+	<div class="center">
+		<h1>{'Logs payments - DotPay'|lang}</h1>
+		<p>{'Here you can see the logs entered codes of DotPay'|lang}</p>
+		<br><br>
+		{if isset($payments_dotpay)}
+			<table class="table">
+				<tr>
+					<td></td>
+					<td>{'Offer'|lang}</td>
+					<td class="center">{'Dotpay ID'|lang}
+						<a href="?{$pagination.page_url.sort_cms}&sort=dotpay_id" title="{'Sort'|lang}" class="icon sort_up"></a><a href="?{$pagination.page_url.sort_cms}&sort=dotpay_id&sort_desc" title="{'Sort descending'|lang}" class="icon sort_down"></a>
+					</td>
+					<td class="center">Operation Status
+						<a href="?{$pagination.page_url.sort_cms}&sort=operation_status" title="{'Sort'|lang}" class="icon sort_up"></a><a href="?{$pagination.page_url.sort_cms}&sort=operation_status&sort_desc" title="{'Sort descending'|lang}" class="icon sort_down"></a>
+					</td>
+					<td class="center">Operation Number
+						<a href="?{$pagination.page_url.sort_cms}&sort=operation_number" title="{'Sort'|lang}" class="icon sort_up"></a><a href="?{$pagination.page_url.sort_cms}&sort=operation_number&sort_desc" title="{'Sort descending'|lang}" class="icon sort_down"></a>
+					</td>
+					<td class="center">Operation Amount
+						<a href="?{$pagination.page_url.sort_cms}&sort=operation_amount" title="{'Sort'|lang}" class="icon sort_up"></a><a href="?{$pagination.page_url.sort_cms}&sort=operation_amount&sort_desc" title="{'Sort descending'|lang}" class="icon sort_down"></a>
+					</td>
+					<td class="center">Operation Original Amount
+						<a href="?{$pagination.page_url.sort_cms}&sort=operation_original_amount" title="{'Sort'|lang}" class="icon sort_up"></a><a href="?{$pagination.page_url.sort_cms}&sort=operation_original_amount&sort_desc" title="{'Sort descending'|lang}" class="icon sort_down"></a>
+					</td>
+					<td class="center">Description
+						<a href="?{$pagination.page_url.sort_cms}&sort=description" title="{'Sort'|lang}" class="icon sort_up"></a><a href="?{$pagination.page_url.sort_cms}&sort=description&sort_desc" title="{'Sort descending'|lang}" class="icon sort_down"></a>
+					</td>
+					<td class="center">Operation DateTime
+						<a href="?{$pagination.page_url.sort_cms}&sort=operation_datetime" title="{'Sort'|lang}" class="icon sort_up"></a><a href="?{$pagination.page_url.sort_cms}&sort=operation_datetime&sort_desc" title="{'Sort descending'|lang}" class="icon sort_down"></a>
+					</td>
+					<td class="center" style="width:95px">{'Date'|lang}
+						<a href="?{$pagination.page_url.sort_cms}&sort=date_URLC" title="{'Sort by date'|lang}" class="icon sort_up"></a><a href="?{$pagination.page_url.sort_cms}&sort=date_URLC&sort_desc" title="{'Sort descending by date'|lang}" class="icon sort_down"></a>
+					</td>
+				</tr>
+
+				{foreach key=key item=item from=$payments_dotpay name=payments_dotpay}
+				<tr>
+					<td class="center">{$smarty.foreach.payments_dotpay.iteration+$pagination.limit_start}</td>
+					<td>{if $item.offer}<a href="../{$item.offer.id},{$item.offer.name_url}" title="{$item.offer.name}" target="_blank">{$item.offer.name}</a>{else}ID: {$item.offer_id}{/if}</td>
+					<td class="center">{$item.dotpay_id}</td>
+					<td class="center">{$item.operation_status}</td>
+					<td class="center">{$item.operation_number}</td>
+					<td class="center">{$item.operation_amount}</td>
+					<td class="center">{$item.operation_original_amount}</td>
+					<td class="center">{$item.description}</td>
+					<td class="center"><b>{$item.operation_datetime|date_format:"%d-%m-%Y"}</b><br>{$item.operation_datetime|date_format:"%H:%M"}</td>
+					<td class="center"><b>{$item.date_URLC|date_format:"%d-%m-%Y"}</b><br>{$item.date_URLC|date_format:"%H:%M"}</td>
+				</tr>
+			{/foreach}
+			</table>
+
+			{include file="pagination.tpl"}
+
+		{else}
+			<h2>{'No`ing found'|lang}</h2>
+		{/if}
+	</div>

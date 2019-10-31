@@ -1,0 +1,219 @@
+
+{include file="top.tpl"}
+
+<script src="js/ckeditor/ckeditor.js"></script>
+<script>
+	{literal}
+		var roxyFileman = 'js/ckeditor/fileman/index.html'; 
+		$(function(){
+			CKEDITOR.replace( 'description',{height: '300px'}); 
+		});
+	{/literal}
+	var photo_max = {$settings.photo_max|escape:'javascript'};
+</script>
+	
+<div class="page_box">
+	<div class="container text-center" id="box_add_offer">
+		{if isset($offer)}
+			<h1>{'Edit offer'|lang}</h1>
+			<h3>{'Here you can edit offer'|lang}</h3>
+			<h4 class="text-center"><a href="{$offer.id},{$offer.name_url}" title="{$offer.name}" class="text-primary" target="_blank">{'See offer'|lang}</a></h4>
+			<p><a href="#" title="{'Delete offer'|lang}: {$offer.name}" class="text-danger ajax_confirm" data-title="{'Are you sure you want to delete offer'|lang} {$offer.name}?" data-action="remove_offer" data-id="{$offer.id}" data-code="{if !empty($smarty.get.code)}{$smarty.get.code}{/if}">{'Delete offer'|lang}</a></p>
+		{else}
+			<h1>{'Add offer'|lang}</h1>
+			<h3>{'Here you can add a new offer to the system'|lang}</h3>
+		{/if}
+		{if isset($info)}
+			<div class="alert alert-success" role="alert" id="js_scroll_page"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {$info}</div><br>
+		{/if}
+		<br>
+		<form class="form-horizontal" method="post">
+			<input type="hidden" name="action" value="{if isset($offer)}edit{else}add{/if}">
+			<input type="hidden" name="session_code" value="{$session_code}">
+			<div class="form-group">
+				<label for="name" class="col-sm-2 control-label">{'Object Name'|lang}: <span class="required">*</span></label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" name="name" placeholder="{'Apartment...'|lang}" id="name" maxlength="128" required {if isset($offer)}value="{$offer.name|escape}"{/if} title="{'Enter the name of the object'|lang}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="email" class="col-sm-2 control-label">{'E-mail address'|lang}: <span class="required">*</span></label>
+				<div class="col-sm-4">
+					<input type="email" class="form-control" name="email" placeholder="{'example@example.com'|lang}" id="email" maxlength="64" required value="{if isset($offer)}{$offer.email}{elseif $user->logged_in}{$user->email}{/if}" title="{'Enter your email address'|lang}">
+				</div>
+				<label for="url" class="col-sm-2 control-label">{'Website'|lang}:</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" name="url" placeholder="{'mywebsite.com'|lang}" id="url" maxlength="128" {if isset($offer)}value="{$offer.url}"{/if} title="{'Enter the website address'|lang}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="phone" class="col-sm-2 control-label">{'Phone'|lang}:</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" name="phone" placeholder="{'+12 345 678 901'|lang}" id="phone" maxlength="32" {if isset($offer)}value="{$offer.phone}"{/if} title="{'Enter the phone number'|lang}">
+				</div>
+				<label for="phone_mobile" class="col-sm-2 control-label">{'Phone mobile'|lang}:</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" name="phone_mobile" placeholder="{'+12 345 678 901'|lang}" id="phone_mobile" maxlength="32" {if isset($offer)}value="{$offer.phone_mobile}"{/if} title="{'Enter the phone number'|lang}">
+				</div>
+			</div>
+			{if isset($offers_kind) or isset($offers_type)}
+				<div class="form-group">
+					{if isset($offers_kind)}
+						<label for="kind" class="col-sm-2 control-label">{'Kind'|lang}: <span class="required">*</span></label>
+						<div class="col-sm-4">
+							<select class="form-control" name="kind" id="kind" title="{'Select the appropriate kind'|lang}" required>
+								<option value="">{'-- select --'|lang}</option>
+								{foreach from=$offers_kind item=item key=key}
+									<option value="{$key}" {if isset($offer) && $offer.kind==$key}selected{/if}>{$item.name}</option>
+								{/foreach}
+							</select>
+						</div>
+					{/if}
+					{if isset($offers_type)}
+						<label for="type" class="col-sm-2 control-label">{'Offer type'|lang}: <span class="required">*</span></label>
+						<div class="col-sm-4">
+							<select class="form-control select_select_type" name="type" id="type" title="{'Select the appropriate offer type'|lang}" required>
+								<option value="">{'-- select --'|lang}</option>
+								{foreach from=$offers_type item=item key=key}
+									<option value="{$key}" {if isset($offer) && $offer.type==$key}selected{/if}>{$item.name}</option>
+								{/foreach}
+							</select>
+						</div>
+					{/if}
+				</div>
+			{/if}
+			<div class="form-group">
+				<label for="type" class="col-sm-2 control-label">{'Price'|lang}: </label>
+				<div class="col-sm-4">
+					<div class="input-group"><input type="number" name="price" min="0" class="form-control text-right" step="0.01" {if isset($offer.price)}value="{$offer.price}"{/if}><div class="input-group-addon">{$settings.currency}</div></div>
+				</div>
+				<label for="type" class="col-sm-2 control-label">{'Youtube movie'|lang}: </label>
+				<div class="col-sm-4">
+					<input type="text" name="youtube" maxlength="128" class="form-control" {if isset($offer.youtube)}value="{$offer.youtube}"{/if}>
+				</div>
+			</div>
+			<hr>
+			<div class="form-group">
+				<label for="add_address" class="col-sm-2 control-label">{'Address'|lang}:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control get_coordinates" name="address" placeholder="{'1600 Pennsylvania Avenue NW, Washington, D.C. 20500'|lang}" id="add_address" maxlength="512" {if isset($offer)}value="{$offer.address}"{/if} title="{'Enter the address'|lang}">
+				</div>
+			</div>
+			<div class="form-group">
+				{if isset($offers_state)}
+					<label for="state" class="col-sm-2 control-label">{'State'|lang}:</label>
+					<div class="col-sm-4">
+						<select class="form-control" name="state" id="state" title="{'Select the appropriate state'|lang}">
+							<option value="">{'-- select --'|lang}</option>
+							{foreach from=$offers_state item=item key=key}
+								<option value="{$key}" {if isset($offer) && $offer.state==$key}selected{/if}>{$item.name}</option>
+							{/foreach}
+						</select>
+					</div>
+				{else}
+				<input type="hidden" name="state" value="">
+				{/if}
+				{if $settings.google_maps && $settings.google_maps_api2}
+					<div class="{if isset($offers_state)}col-sm-6{else}col-sm-12{/if}">
+						<input type="button" class="btn btn-default btn-sm pull-right" value="{'Show on map'|lang}" id="button_get_coordinates" style="margin-top:4px">
+					</div>
+				{/if}
+			</div>
+			{if $settings.google_maps}
+				<div id="google_maps" style="height: 300px"></div>
+				{literal}
+				<script>
+					var google_maps, google_maps_marker;
+					function displayMap() {
+						autocomplete = new google.maps.places.Autocomplete((document.getElementById('add_address')), {types: ['geocode']});
+						google.maps.event.addDomListener(window, "load", function() {
+							{/literal}{if isset($offer) && ($offer.address_lat!=0 || $offer.address_long!=0)}var myLatlng = new google.maps.LatLng({$offer.address_lat},{$offer.address_long});{/if}{literal}
+							google_maps = new google.maps.Map(document.getElementById("google_maps"), {
+								center: new google.maps.LatLng( {/literal}{if isset($offer) && ($offer.address_lat!=0 || $offer.address_long!=0)}{$offer.address_lat},{$offer.address_long}{else}{$settings.google_maps_lat},{$settings.google_maps_long}{/if}{literal}),
+								zoom: {/literal}{$settings.google_maps_zoom_add|default:8}{literal}
+							});
+							google_maps_marker = new google.maps.Marker({
+								draggable: true,
+								{/literal}{if isset($offer) && ($offer.address_lat!=0 || $offer.address_long!=0)}position: myLatlng,{/if}{literal}
+								map: google_maps
+							});
+							google.maps.event.addListener(google_maps_marker, 'dragend', function (event) {
+								$('input[name=address_lat]').val(this.getPosition().lat());
+								$('input[name=address_long]').val(this.getPosition().lng());
+							});
+							google.maps.event.addListener(google_maps, 'click', function (mapEvent) {
+								google_maps.panTo(mapEvent.latLng);
+								google_maps_marker.setPosition(google_maps.getCenter());
+								$('input[name=address_lat]').val(google_maps_marker.getPosition().lat());
+								$('input[name=address_long]').val(google_maps_marker.getPosition().lng());
+							});	
+						});
+					}
+				</script>
+				{/literal}
+			{/if}
+			<input type="hidden" name="address_lat" {if isset($offer)}value="{$offer.address_lat}"{/if}>
+			<input type="hidden" name="address_long" {if isset($offer)}value="{$offer.address_long}"{/if}>
+			<hr>
+			<div class="form-group">
+				<div class="col-sm-12">
+					<label for="description" class="control-label">{'Offer description'|lang}:</label>
+					<textarea id="description" name="description" class="form-control" style="height: 150px">{if isset($offer)}{$offer.description}{/if}</textarea>
+				</div>
+			</div>
+			{if $settings.photo_add}
+				<hr>
+				<div class="form-group text-center">
+					<label class="control-label">{'Photos'|lang}:</label>	
+					{if $settings.photo_max}<p>{'Limit photos'|lang}: {$settings.photo_max}</p>{/if}
+					<div class="alert alert-danger hidden" role="alert" id="photos_info"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <span></span></div>
+					<div id="preview_photos">
+						{if isset($offer.photos)}
+							{foreach from=$offer.photos item=item key=key}
+								<div class="img-thumbnail">
+									<img src="upload/photos/{$item.thumb}" alt="{$item.url}">
+									<br><a href="#" title="{'Remove photo:'|lang} {$item.url}" class="remove_photo">{'Remove'|lang}</a>
+									<input type="hidden" name="photos[]" value="{$item.id}">
+								</div>
+							{/foreach}
+						{/if}
+					</div>
+					<img src="views/{$settings.template}/images/loading.gif" alt="Loading" id="preview_load" class="hidden">
+					<input class="btn btn-default" id="input_select_photo" type="file" title="{'Here you can add photos to offer'|lang}" multiple accept="image/*" style="margin: auto"><br>
+				</div>		
+			{/if}
+			{if isset($offers_options)}
+				<div class="form-group">
+					<br><label for="options" class="control-label">{'Offer options'|lang}:</label><br><br>
+					{foreach from=$offers_options item=item key=key}
+						<div class="form-group {if !$item.type_all && isset($item.types)}offers_option_div {foreach from=$item.types item=item2 key=key2} offers_option_{$item2} {/foreach}{/if}">
+							<label for="options[{$item.id}]" class="control-label col-md-3 col-md-offset-2">{$item.name}: {if $item.required}<span class="required">*</span>{/if}</label>
+							<div class="col-md-5">
+								{if $item.kind=='text'}
+									<input class="form-control" type="text" name="options[{$item.id}]" {if isset($offer.options[$item.id])}value="{$offer.options[$item.id].value}"{/if} {if $item.required}required{/if}>
+								{elseif $item.kind=='number'}
+									<input class="form-control text-right" type="number" name="options[{$item.id}]" {if isset($offer.options[$item.id])}value="{$offer.options[$item.id].value}"{/if}} {if $item.required}required{/if}>
+								{elseif $item.kind=='select' && isset($item.choices)}
+									<select class="form-control" name="options[{$item.id}]" {if $item.required}required{/if}>
+										<option value="">{'-- select --'|lang}</option>
+										{foreach from=$item.choices item=item2 key=key2}
+											<option value="{$item2}" {if isset($offer.options[{$item.id}]) && $offer.options[{$item.id}].value==$item2}selected{/if}>{$item2}</option>
+										{/foreach}
+									</select>
+								{/if}
+							</div>
+						</div>
+					{/foreach}
+				</div><br>
+			{/if}
+			<br>
+			<input type="submit" class="btn btn-primary" value="{'SAVE!'|lang}">
+			<br><br>
+			<p class="text-left"><span class="required">*</span> - {'required field'|lang}</p>
+			<br>
+		</form>
+	</div>
+</div>
+
+{include file="footer.tpl"}
+

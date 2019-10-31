@@ -1,0 +1,71 @@
+﻿	
+	<div class="center">
+		<h1>{'Index page'|lang}</h1>
+		<p>{'Here you can edit the index page'|lang}</p>
+		<br>
+		<form action="" method="post">
+			<input type="hidden" name="action" value="save_index_page">
+			<h2>{'Content 1 on index page'|lang}:</h2>
+			<textarea name="text_1" placeholder="{'Content'|lang}" title="{'Content 1 on index page'|lang}">{$index_page.text_1}</textarea>
+		<script>
+			{literal}
+				var roxyFileman = 'js/ckeditor/fileman/index.html'; 
+				$(function(){
+					CKEDITOR.replace( 'text_1',{height: '200px',
+						filebrowserBrowseUrl:roxyFileman,
+						filebrowserImageBrowseUrl:roxyFileman+'?type=image',
+						removeDialogTabs: 'link:upload;image:upload'}); 
+				});
+			{/literal}
+		</script>	
+			<br>
+			<input type="submit" value="{'SAVE!'|lang}">
+		</form>
+		<br><br>
+		<h2>{'Slider'|lang}</h2>
+		<form method="post" action="">
+			<input type="hidden" name="action" value="add_slide">
+			<input type="submit" value="{'Add slide'|lang}">
+		</form>
+		<br>
+		{if isset($slider)}				
+			{foreach key=key item=item from=$slider name=slider}
+				<form method="post" action="">
+					<input type="hidden" name="action" value="save_slide">
+					<input type="hidden" name="id" value="{$item.id}">
+					<textarea id="slide_{$item.id}" name="content">{$item.content}</textarea>
+					<script>
+						{literal}
+							var roxyFileman = 'js/ckeditor/fileman/index.html'; 
+							$(function(){
+								CKEDITOR.replace( 'slide_{/literal}{$item.id}{literal}',{height: '200px',
+									filebrowserBrowseUrl:roxyFileman,
+									filebrowserImageBrowseUrl:roxyFileman+'?type=image',
+									removeDialogTabs: 'link:upload;image:upload'}); 
+							});
+						{/literal}
+					</script>
+					<br>
+					<input type="submit" value="{'SAVE!'|lang}">
+				</form>
+				
+				<p><a href="#remove_slide_{$item.id}" title="{'Remove slide'|lang}" class="open_dialog">{'Remove slide'|lang}</a></p>	
+				<br><br>
+
+				<div class="dialog" id="remove_slide_{$item.id}" data-title="{'Remove slide'|lang}">
+					<p>{'Are you sure you want to remove a slide'|lang}?</p>
+					<form method="post" action="">
+						<input type="hidden" name="action" value="remove_slide">
+						<input type="hidden" name="id" value="{$item.id}">
+						<input type="reset"/>
+						<input type="submit"/>
+					</form>
+				</div>
+
+			{/foreach}		
+		{else}
+		<h2>{'Nothing found'|lang}</h2>
+		{/if}
+	</div>
+	
+

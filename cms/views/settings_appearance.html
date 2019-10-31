@@ -1,0 +1,106 @@
+<div id="roxyCustomPanel" style="display: none;">
+	<iframe src="js/ckeditor/fileman/index.html?integration=custom" style="width:100%;height:100%" frameborder="0"></iframe>
+</div>
+
+	<div class="center">
+		<h1>{'Appearance settings'|lang}</h1>
+		<p>{'Here you can edit the settings of the service'|lang}</p>
+		<br><br>
+		<form action="" method="post">
+			<input type="hidden" name="action" value="save_settings_appearance">
+			<h2>{'Template'|lang}: 
+				<select name="template" title="{'Template'|lang}" required>
+					{foreach from=$templates item=item key=key}
+						<option value="{$item}" {if $item==$settings.template}selected{/if}>{$item}</option>
+					{/foreach}
+				</select>
+			</h2>
+			<hr>
+			<label><h2><input type="checkbox" name="search_box_kind" title="{'Show in search box: Kinds'|lang}" {if $settings.search_box_kind}checked{/if}> {'Show in search box: Kinds'|lang}</h2></label>
+			<label><h2><input type="checkbox" name="search_box_address" title="{'Show in search box: Address'|lang}" {if $settings.search_box_address}checked{/if}> {'Show in search box: Address'|lang}</h2></label>
+			<label><h2><input type="checkbox" name="search_box_distance" title="{'Show in search box: Distance'|lang}" {if $settings.search_box_distance}checked{/if}> {'Show in search box: Distance'|lang}</h2></label>
+			<label><h2><input type="checkbox" name="search_box_keywords" title="{'Show in search box: Keywords'|lang}" {if $settings.search_box_keywords}checked{/if}> {'Show in search box: Keywords'|lang}</h2></label>
+			<label><h2><input type="checkbox" name="search_box_price" title="{'Show in search box: Price'|lang}" {if $settings.search_box_price}checked{/if}> {'Show in search box: Price'|lang}</h2></label>
+			<label><h2><input type="checkbox" name="search_box_state" title="{'Show in search box: State'|lang}" {if $settings.search_box_state}checked{/if}> {'Show in search box: State'|lang}</h2></label>
+			<label><h2><input type="checkbox" name="search_box_type" title="{'Show in search box: Type'|lang}" {if $settings.search_box_type}checked{/if}> {'Show in search box: Type'|lang}</h2></label>
+			<label><h2><input type="checkbox" name="search_box_options" title="{'Show in search box: Options'|lang}" {if $settings.search_box_options}checked{/if}> {'Show in search box: Options'|lang}</h2></label>
+			<hr>
+			<h3>{'Logo'|lang}:</h3>			
+			<a href="#" class="open_roxy">
+				<img data-roxy_name="logo" src="{if $settings.logo}{$settings.logo}{else}images/no_image.png{/if}" onerror="this.src='images/no_image.png'" alt="{'Logo'|lang}" style="max-height: 100px">
+			</a>
+			<br>
+			<input type="text" name="logo" value="{$settings.logo}" placeholder="{'Logo'|lang}" title="{'Logo'|lang}">
+			<h3>{'Logo - Facebook'|lang}:</h3>			
+			<a href="#" class="open_roxy">
+				<img data-roxy_name="logo_facebook" src="{if $settings.logo_facebook}{$settings.logo_facebook}{else}images/no_image.png{/if}" onerror="this.src='images/no_image.png'" alt="{'Logo - Facebook'|lang}" style="max-height: 100px">
+			</a>
+			<br>
+			<input type="text" name="logo_facebook" value="{$settings.logo_facebook}" placeholder="{'Logo - Facebook'|lang}" title="{'Logo - Facebook'|lang}">
+			<h3>{'Watermark'|lang}:</h3>			
+			<a href="#" class="open_roxy">
+				<img data-roxy_name="watermark" src="{if $settings.watermark}{$settings.watermark}{else}images/no_image.png{/if}" onerror="this.src='images/no_image.png'" alt="{'Watermark'|lang}" style="max-height: 100px">
+			</a>
+			<br>
+			<input type="text" name="watermark" value="{$settings.watermark}" placeholder="{'Watermark'|lang}" title="{'Watermark'|lang}">
+			<h3>{'Favicon'|lang}:</h3>			
+			<a href="#" class="open_roxy">
+				<img data-roxy_name="favicon" src="{if $settings.favicon}{$settings.favicon}{else}images/no_image.png{/if}" onerror="this.src='images/no_image.png'" alt="{'Favicon'|lang}" style="max-height: 100px">
+			</a>
+			<br>
+			<input type="text" name="favicon" value="{$settings.favicon}" placeholder="{'Favicon'|lang}" title="{'Favicon'|lang}">
+			<hr>
+			<label><h2><input type="checkbox" name="rodo_alert" title="{'Show message about personal data processing (RODO)'|lang}" {if $settings.rodo_alert}checked{/if}> {'Show message about personal data processing (RODO)'|lang}</h2></label>
+			<h3>{'Content of alert about processing personal data'|lang}:</h3>
+			<textarea name="rodo_alert_text" title="{'Content of alert about processing personal data'|lang}">{$settings.rodo_alert_text}</textarea>
+			<script>
+				{literal}
+					var roxyFileman = 'js/ckeditor/fileman/index.html'; 
+					$(function(){
+						CKEDITOR.replace( 'rodo_alert_text',{height: '150px',
+							filebrowserBrowseUrl:roxyFileman,
+							filebrowserImageBrowseUrl:roxyFileman+'?type=image',
+							removeDialogTabs: 'link:upload;image:upload'}); 
+					});
+				{/literal}
+			</script>
+			<hr>
+			<h3>{'Footer - top'|lang}:</h3>
+			<textarea name="footer_top" title="{'Footer - top'|lang}">{$settings.footer_top}</textarea>
+			<script>
+				{literal}
+					var roxyFileman = 'js/ckeditor/fileman/index.html'; 
+					$(function(){
+						CKEDITOR.replace( 'footer_top',{height: '100px',
+							filebrowserBrowseUrl:roxyFileman,
+							filebrowserImageBrowseUrl:roxyFileman+'?type=image',
+							removeDialogTabs: 'link:upload;image:upload'}); 
+					});
+				{/literal}
+			</script>
+			<h3>{'Footer - bottom'|lang}:</h3>
+			<textarea id="footer_bottom_textarea" name="footer_bottom" title="{'Footer - bottom'|lang}">{$settings.footer_bottom}</textarea>
+			<script>
+				{literal}
+					var roxyFileman = 'js/ckeditor/fileman/index.html'; 
+					$(function(){
+						CKEDITOR.replace( 'footer_bottom_textarea',{height: '100px',
+							filebrowserBrowseUrl:roxyFileman,
+							filebrowserImageBrowseUrl:roxyFileman+'?type=image',
+							removeDialogTabs: 'link:upload;image:upload'}); 
+					});
+				{/literal}
+			</script>
+			<hr>
+			<h3>{'Additional CSS'|lang}</h3>
+			<textarea name="code_style" title="{'Additional CSS'|lang}">{$settings.code_style}</textarea>
+			<h3>{'Additional code in the HEAD'|lang}</h3>
+			<textarea name="code_head" title="{'Additional code in the HEAD'|lang}">{$settings.code_head}</textarea>
+			<h3>{'Additional code in the BODY'|lang}</h3>
+			<textarea name="code_body" title="{'Additional code in the BODY'|lang}">{$settings.code_body}</textarea>
+			<br><br>
+			<input type="submit" value="{'Save'|lang}">
+		</form>
+	</div>
+	
+	

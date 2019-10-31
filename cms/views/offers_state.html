@@ -1,0 +1,65 @@
+﻿	
+	<div class="dialog" id="add" data-title="{'Add state'|lang}">
+		<form method="post" action="">
+			<input type="hidden" name="action" value="add_state">
+			<input type="text" name="name" required maxlength="64" placeholder="{'The name'|lang}" title="{'The name'|lang}">
+			<input type="reset"/>
+			<input type="submit"/>
+		</form>
+	</div>
+	
+	<div class="center">
+		<h1>{'States'|lang}</h1>
+		<p>{'Here you can edit the states on the site'|lang}</p>
+		<br>
+		<p><a href="#add" title="{'Add state'|lang}" class="submit open_dialog">{'Add state'|lang}</a></p>
+		<br>
+		{if isset($offers_state)}
+		<table class="table">
+			<tr>
+				<td colspan="4">{'States'|lang}</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>{'The name'|lang}</td>
+				<td class="center">{'Edit'|lang}</td>
+				<td class="center">{'Remove'|lang}</td>
+			</tr>
+				
+			{foreach key=key item=item from=$offers_state name=offers_state}
+				<tr>
+					<td>{$smarty.foreach.offers_state.iteration}</td>
+					<td><b>{$item.name}</b></td>
+					<td class="center"><a href="#edit_{$key}" title="{'Edit'|lang}" class="icon icon_edit open_dialog"></a></td>		
+					<td class="center"><a href="#remove_{$key}" title="{'Remove'|lang}" class="icon icon_remove open_dialog"></a></td>			 				
+				</tr>
+				
+				<div class="dialog" id="edit_{$key}" data-title="{'Edit'|lang}: {$item.name}">
+					<form method="post" action="">
+						<input type="hidden" name="action" value="edit_state">
+						<input type="hidden" name="id" value="{$key}">
+						<input type="text" name="name" required maxlength="64" placeholder="{'The name'|lang}" title="{'The name'|lang}" value="{$item.name}">
+						<input type="reset"/>
+						<input type="submit"/>
+					</form>
+				</div>
+				
+				<div class="dialog" id="remove_{$key}" data-title="{'Remove state'|lang}: {$item.name}">
+					<p>{'Are you sure you want to remove a state'|lang}: "{$item.name}"?</p>
+					<form method="post" action="">
+						<input type="hidden" name="action" value="remove_state">
+						<input type="hidden" name="id" value="{$key}">
+						<input type="reset"/>
+						<input type="submit"/>
+					</form>
+				</div>
+
+			{/foreach}		
+		</table>
+		{else}
+		<h2>{'Nothing found'|lang}</h2>
+		{/if}
+		
+	</div>
+	
+

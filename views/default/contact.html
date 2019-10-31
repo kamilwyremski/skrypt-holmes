@@ -1,0 +1,84 @@
+
+{include file="top.tpl"}
+
+<div class="page_box">
+	<div class="container">
+		<h2>{$contact_page.name}</h2>
+		<br>
+		{$contact_page.content}
+		<br>
+		{if $settings.ads_1}<div class="ads">{$settings.ads_1}</div>{/if}
+		<br>
+		<h2 class="text-center">{'Contact form'|lang}</h2>
+		<br>
+		{if isset($info)}
+			<div class="alert alert-success" role="alert" id="js_scroll_page"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {$info}</div><br>
+		{elseif isset($error)}
+			<div class="alert alert-danger" role="alert" id="js_scroll_page"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {$error.alert}</div><br>
+		{/if}
+		<form class="form-horizontal" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="action" value="send_message">
+			<div class="form-group {if isset($error.name)}has-error{/if}">
+				<label for="name" class="col-sm-2 control-label">{'Name'|lang}</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" id="name" name="name" placeholder="{'John Smith'|lang}" required {if isset($input.name)}value="{$input.name}"{/if} title="{'Enter your name'|lang}">
+					{if isset($error.name)}<p class='text-danger'>{$error.name}</p>{/if}
+				</div>
+			</div>
+			<div class="form-group {if isset($error.email)}has-error{/if}">
+				<label for="email" class="col-sm-2 control-label">{'E-mail address'|lang}</label>
+				<div class="col-sm-10">
+					<input type="email" class="form-control" id="email" name="email" placeholder="{'example@example.com'|lang}" required value="{if isset($input.email)}{$input.email}{/if}" title="{'Enter your email address'|lang}">
+					{if isset($error.email)}<p class='text-danger'>{$error.email}</p>{/if}
+				</div>
+			</div>
+			<div class="form-group {if isset($error.message)}has-error{/if}">
+				<label for="message" class="col-sm-2 control-label">{'Message'|lang}</label>
+				<div class="col-sm-10">
+					<textarea class="form-control" rows="4" name="message" id="message" required placeholder="{'My message'|lang}" title="{'Enter your message'|lang}">{if isset($input.message)}{$input.message}{/if}</textarea>
+					{if isset($error.message)}<p class='text-danger'>{$error.message}</p>{/if}
+				</div>
+			</div>
+			{if $settings.mail_attachment}
+				<div class="form-group">
+					<label for="attachment" class="col-sm-2 control-label">{'Attachment'|lang}</label>
+					<div class="col-sm-10">
+						<span class="btn btn-default btn-file"><input type="file" name="attachment" id="attachment" title="{'Here you can add an attachment to your message'|lang}"></span>
+					</div>
+				</div>
+			{/if}
+			<div class="form-group {if isset($error.captcha)}has-error{/if}">
+				<label for="captcha" class="col-sm-2 control-label">{'Captcha'|lang}</label>
+				<div class="col-sm-2">
+					<img src="php/captcha.php" alt="captcha">
+				</div>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" placeholder="abc123" title="{'Enter the code Captcha'|lang}" name="captcha" id="captcha" required maxlength="32">
+					{if isset($error.captcha)}<p class='text-danger'>{$error.captcha}</p>{/if}
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-10 col-sm-offset-2">
+					{if isset($error.rules)}
+						<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign"></span> {$error.rules}</div>
+					{/if}
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" name="rules" required {if isset($smarty.post.rules)}checked{/if}>{'Accepts the terms and conditions and the privacy policy'|lang}
+							<p><a href="{$links.info}/2,{$settings.url_rules}" title="{'Terms of service'|lang}" target="_blank">{'Terms of service'|lang}</a> - <a href="{$links.info}/1,{$settings.url_privacy_policy}" title="{'Privacy policy'|lang}" target="_blank">{'Privacy policy'|lang}</a></p>
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-10 col-sm-offset-2">
+					<input type="submit" value="{'Send!'|lang}" class="btn btn-primary">
+				</div>
+			</div>
+		</form>
+		<br><br><br>
+	</div>
+</div>
+
+{include file="footer.tpl"}
+

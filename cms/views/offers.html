@@ -1,0 +1,155 @@
+﻿		
+	<div class="center">
+		<h1>{'Offers'|lang}</h1>
+		<p>{'Here you can see the offer from website. To edit it, you must be an moderator'|lang}</p>
+		<br>
+		<form action="" method="get">
+			<input type="hidden" name="action" value="offers">
+			<input type="hidden" name="search">
+			<input type="number" name="id" title="{'Enter the ID of the object'|lang}" placeholder="{'ID'|lang}" {if isset($smarty.get.id)}value="{$smarty.get.id}"{/if}>
+			<input type="text" name="name" title="{'Enter the name of the object'|lang}" placeholder="{'Object Name'|lang}" {if isset($smarty.get.name)}value="{$smarty.get.name}"{/if}>
+			{if isset($users)}
+				<select name="user_id" title="{'Select user'|lang}">
+					<option value="">{'All users'|lang}</option>
+					{foreach from=$users item=item key=key}
+						<option value="{$item.id}" {if isset($smarty.get.user_id) && $smarty.get.user_id==$item.id}selected{/if}>{$item.username}</option>
+					{/foreach}
+				</select>
+			{/if}
+			<select name="active" title="{'Search by active offers'|lang}">
+				<option value="">{'All'|lang}</option>
+				<option value="yes" {if isset($smarty.get.active) && $smarty.get.active=='yes'}selected{/if}>{'Active offers'|lang}</option>
+				<option value="no" {if isset($smarty.get.active) && $smarty.get.active=='no'}selected{/if}>{'Inactive offers'|lang}</option>
+			</select>
+			<select name="promoted" title="{'Search by promoted offers'|lang}">
+				<option value="">{'All'|lang}</option>
+				<option value="yes" {if isset($smarty.get.promoted) && $smarty.get.promoted=='yes'}selected{/if}>{'Promote offers'|lang}</option>
+				<option value="no" {if isset($smarty.get.promoted) && $smarty.get.promoted=='no'}selected{/if}>{'No promote offers'|lang}</option>
+			</select>
+			<input type="submit" value="{'SEARCH!'|lang}">
+		</form>
+		<br>
+		{if isset($offers)}
+			<table class="table parent_select_checkbox">
+				<tr>
+					<td colspan="20">{'Offers'|lang}</td>
+				</tr>
+				<tr>
+					<td class="center"><input type="checkbox" class="select_checkbox" title="{'Select all'|lang}"></td>
+					<td class="center">{'ID'|lang}<br>
+						<a href="?{$pagination.page_url.sort_cms}&sort=id" title="{'Sort by ID'|lang}" class="icon sort_up"></a><a href="?{$pagination.page_url.sort_cms}&sort=id&sort_desc" title="{'Sort descending by ID'|lang}" class="icon sort_down"></a>
+					</td>
+					<td class="center">{'Active'|lang}<br>
+						<a href="?{$pagination.page_url.sort_cms}&sort=active" title="{'Sort by active'|lang}" class="icon sort_up"></a><a href="?{$pagination.page_url.sort_cms}&sort=active&sort_desc" title="{'Sort descending by active'|lang}" class="icon sort_down"></a>
+					</td>
+					<td class="center">{'Promoted'|lang}<br>
+						<a href="?{$pagination.page_url.sort_cms}&sort=promoted" title="{'Sort by promoted'|lang}" class="icon sort_up"></a><a href="?{$pagination.page_url.sort_cms}&sort=promoted&sort_desc" title="{'Sort descending by promoted'|lang}" class="icon sort_down"></a>
+					</td>
+					<td>{'The name'|lang}<br>
+						<a href="?{$pagination.page_url.sort_cms}&sort=name" title="{'Sort by name'|lang}" class="icon sort_up"></a><a href="?{$pagination.page_url.sort_cms}&sort=name&sort_desc" title="{'Sort descending by name'|lang}" class="icon sort_down"></a>
+					</td>
+					<td>{'User'|lang}</td>
+					<td class="center">{'View count'|lang}<br>{'all'|lang} / {'unique'|lang}</td>
+					<td class="center" style="min-width:80px">{'Date added'|lang}<br>
+						<a href="?{$pagination.page_url.sort_cms}&sort=date" title="{'Sort by date'|lang}" class="icon sort_up"></a><a href="?{$pagination.page_url.sort_cms}&sort=date&sort_desc" title="{'Sort descending by date'|lang}" class="icon sort_down"></a>
+					</td>
+					<td class="center">{'Edit'|lang}</td>
+					<td class="center">{'Remove'|lang}</td>
+				</tr>
+					
+				{foreach key=key item=item from=$offers name=offers}
+					<tr>
+						<td class="center"><input type="checkbox" name="offers[]" value="{$item.id}" form="form_selected_offers"></td>
+						<td class="center">{$item.id}</td>
+						<td class="center">{if $item.active}<a href="#deactivate_{$item.id}" title="{'Deactivate offer'|lang}" class="open_dialog">{'YES'|lang}</a>{else}<a href="#activate_{$item.id}" title="{'Activate offer'|lang}" class="open_dialog" style="color:grey">{'NO'|lang}</a>{/if}</td>
+						<td class="center">{if $item.promoted}<a href="#disable_promote_{$item.id}" title="{'No promote offer'|lang}" class="open_dialog">{'YES'|lang}</a><br>{$item.promoted_date_end|date_format:"%d-%m-%Y"}{else}<a href="#enable_promote_{$item.id}" title="{'Promote offer'|lang}" class="open_dialog" style="color:grey">{'NO'|lang}</a>{/if}</td>
+						<td><a href="../{$item.id},{$item.name_url}" title="{$item.name}" target="_blank">{$item.name}</a></td>
+						<td>
+							{if $item.user}
+								{$item.user.username}<br>{if $_CMS_TEST_MODE_}TEST{else}{$item.user.email}{/if}
+							{/if}
+						</td>
+						<td class="center">{$item.view.all} / {$item.view.unique}</td>
+						<td class="center">{$item.date|date_format:"%d-%m-%Y"}</td>
+						<td class="center"><a href="../{$links.edit}/{$item.id},{$item.name_url}" title="{'Edit offer'|lang}" class="icon icon_edit" target="_blank"></a></td>		
+						<td class="center"><a href="#remove_{$item.id}" title="{'Delete offer'|lang}" class="icon icon_remove open_dialog"></a></td>								
+					</tr>
+					
+					<div class="dialog" id="remove_{$item.id}" data-title="{'Delete offer'|lang}: {$item.name}">
+						<p>{'Are you sure you want to delete offer'|lang}: "{$item.name}"?</p>
+						<form method="post" action="">
+							<input type="hidden" name="action" value="remove_offer">
+							<input type="hidden" name="id" value="{$item.id}">
+							<input type="reset"/>
+							<input type="submit"/>
+						</form>
+					</div>
+					
+					{if $item.active}
+						<div class="dialog" id="deactivate_{$item.id}" data-title="{'Deactivate offer'|lang}: {$item.name}">
+							<p>{'Are you sure you want to deactivate offer'|lang}: "{$item.name}"?</p>
+							<form method="post" action="">
+								<input type="hidden" name="action" value="deactivate_offer">
+								<input type="hidden" name="id" value="{$item.id}">
+								<input type="reset"/>
+								<input type="submit"/>
+							</form>
+						</div>
+					{else}
+						<div class="dialog" id="activate_{$item.id}" data-title="{'Activate offer'|lang}: {$item.name}">
+							<p>{'Are you sure you want to activate offer'|lang}: "{$item.name}"?</p>
+							<form method="post" action="">
+								<input type="hidden" name="action" value="activate_offer">
+								<input type="hidden" name="id" value="{$item.id}">
+								<input type="reset"/>
+								<input type="submit"/>
+							</form>
+						</div>
+					{/if}
+					
+					{if $item.promoted}
+						<div class="dialog" id="disable_promote_{$item.id}" data-title="{'No promote offer'|lang}: {$item.name}">
+							<p>{'Are you sure you want disable promote offer'|lang}: "{$item.name}"?</p>
+							<form method="post" action="">
+								<input type="hidden" name="action" value="disable_promote_offer">
+								<input type="hidden" name="id" value="{$item.id}">
+								<input type="reset"/>
+								<input type="submit"/>
+							</form>
+						</div>
+					{else}
+						<div class="dialog" id="enable_promote_{$item.id}" data-title="{'Promote offer'|lang}: {$item.name}">
+							<p>{'Are you sure you want enable promote offer'|lang}: "{$item.name}"?</p>
+							<form method="post" action="">
+								<input type="hidden" name="action" value="enable_promote_offer">
+								<input type="hidden" name="id" value="{$item.id}">
+								<input type="date" name="date" title="{'Choose final date'|lang}" value="{($smarty.now+2592000)|date_format:'%Y-%m-%d'}" min="{$smarty.now|date_format:'%Y-%m-%d'}">
+								<input type="reset"/>
+								<input type="submit"/>
+							</form>
+						</div>
+					{/if}
+
+				{/foreach}		
+			</table>
+			<form method="post" action="" id="form_selected_offers">
+				<p style="text-align:left">{'Selected'|lang}: 
+					<select name="action" required title="{'Select the appropriate action'|lang}">
+						<option value="">-- {'select'|lang} --</option>
+						<option value="remove_offers">{'Remove offers'|lang}</option>
+						<option value="active_offers">{'Active offers'|lang}</option>
+						<option value="deactive_offers">{'Deactive offers'|lang}</option>
+					</select> 
+					<input type="submit" value="{'Execute'|lang}!">
+				</p>
+			</form>
+			
+			{include file="pagination.tpl"}
+			
+		{else}
+		<h2>{'Nothing found'|lang}</h2>
+		{/if}
+		
+	</div>
+	
+

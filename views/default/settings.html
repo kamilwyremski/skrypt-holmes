@@ -1,0 +1,74 @@
+<script src="js/ckeditor/ckeditor.js"></script>
+<script>
+	{literal}
+		var roxyFileman = 'js/ckeditor/fileman/index.html'; 
+		$(function(){
+			CKEDITOR.replace( 'description',{height: '300px'}); 
+		});
+	{/literal}
+</script>
+
+{include file="top.tpl"}
+
+<div class="page_box background_grey">
+	<div class="text-center page_box_inside">
+		<h2>{'Settings'|lang}</h2>
+		<h3>{'Here you can edit your account data'|lang}</h3>
+		<br>
+		<h4>{'Statistics'|lang}</h4>
+		<table class="table table-striped">
+			<tr><td>{'Username'|lang}:</td><td>{$user->username}</td></tr>
+			<tr><td>{'E-mail address'|lang}:</td><td>{$user->email}</td></tr>
+			<tr><td>{'Number of offers'|lang}:</td><td>{$user->number_offers}</td></tr>
+			<tr><td>{'Date of registration'|lang}:</td><td>{$user->date|date_format:"%d-%m-%Y"}</td></tr>
+			<tr><td>{'Number of logins'|lang}:</td><td>{$user->number_login}</td></tr>
+			{if $user->last_login}
+				<tr><td>{'Last login'|lang}:</td><td>{$user->last_login|date_format:"%d-%m-%Y"} / {$user->last_login|date_format:"%H:%M"}</td></tr>
+			{/if}
+			{if $user->last_reset_password}
+				<tr><td>{'Last reset password'|lang}:</td><td>{$user->last_reset_password|date_format:"%d-%m-%Y"} / {$user->last_reset_password|date_format:"%H:%M"}</td></tr>
+			{/if}
+		</table>
+		<br>
+		<h4>{'Description'|lang}:</h4>
+		<form class="form-horizontal" method="post">
+			<input type="hidden" name="action" value="save_description">
+			<div class="form-group">
+				<textarea id="description" name="description" class="form-control" style="height: 150px">{$user->description}</textarea>
+			</div>
+			<input type="submit" class="btn btn-default" value="{'SAVE!'|lang}">
+		</form><br><br>
+		<h4>{'Password change'|lang}:</h4>
+		{if isset($info)}
+			<div class="alert alert-success" role="alert" id="js_scroll_page"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {$info}</div><br>
+		{elseif isset($error)}
+			<div class="alert alert-danger" role="alert" id="js_scroll_page"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {$error}</div><br>
+		{/if}
+		<form class="form-horizontal" method="post">
+			<input type="hidden" name="action" value="change_password">
+			<div class="form-group">
+				<label for="old_password" class="col-sm-4 control-label">{'Old password'|lang}:</label>
+				<div class="col-sm-8">
+					<input type="password" class="form-control" name="old_password" placeholder="****" id="old_password" maxlength="32" required title="{'Old password'|lang}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="new_password" class="col-sm-4 control-label">{'New password'|lang}:</label>
+				<div class="col-sm-8">
+					<input type="password" class="form-control" name="new_password" placeholder="****" id="new_password" maxlength="32" required title="{'New password'|lang}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="repeat_new_password" class="col-sm-4 control-label">{'Repeat new password'|lang}</label>
+				<div class="col-sm-8">
+					<input type="password" class="form-control" name="repeat_new_password" placeholder="****" id="repeat_new_password" maxlength="32" required title="{'Repeat new password'|lang}">
+				</div>
+			</div>
+			<input type="submit" class="btn btn-default" value="{'SAVE!'|lang}">
+		</form>
+		<br><br>
+	</div>
+</div>
+
+{include file="footer.tpl"}
+

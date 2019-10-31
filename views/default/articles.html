@@ -1,0 +1,17 @@
+
+{include file="top.tpl"}
+
+<div class="page_box">
+	<div class="container">
+		<h2>{'Articles'|lang}</h2>
+		<br>
+		{include file="articles.tpl"}
+		{if isset($articles)}
+			<br>
+			{include file="pagination.tpl"}
+		{/if}
+	</div>
+</div>
+
+{include file="footer.tpl"}
+

@@ -1,0 +1,29 @@
+/* statistics */
+#table_statistics tr td:nth-child(2), #table_statistics tr td:nth-child(4){
+	text-align: right;
+}
+#statistics{
+	background-color: white; margin: 30px auto; box-shadow: 0px 14px 22px -20px rgba(50, 50, 50, 0.75); padding: 10px; width: 90%;
+}
+#statistics input{
+	width: 150px; min-width: 150px;
+}
+#statistics_select_1{
+	border-color: #4bb2c5; padding: 5px 2px;
+}
+#statistics_select_2{
+	border-color: #eaa228; padding: 5px 2px;
+}
+#jqplot{
+	width:90%; height: 250px; margin: auto; 
+}
+#jqplot_info{
+	padding-top: 70px; max-width: 300px; margin: auto;  color: #525252;   font-size: 20px; font-weight: bold;
+}
+/* mails */
+#ul_mails{
+	margin: auto; text-align:left; max-width: 250px
+}
+#ul_mails li{
+	margin: 4px;
+}

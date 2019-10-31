@@ -1,0 +1,60 @@
+﻿	
+	
+	<div class="center">
+		<h1>{'Offers options'|lang}</h1>
+		<p>{'Here you can edit the offers options'|lang}</p>
+		<br>
+		<p><a href="?action=offers_option" title="{'Add option'|lang}" class="submit open_dialog">{'Add option'|lang}</a></p>
+		<br>
+		{if isset($offers_options)}
+		<table class="table">
+			<tr>
+				<td colspan="10">{'Offers options'|lang}</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>{'The name'|lang}</td>
+				<td class="center" style="width:55px">{'Position'|lang}</td>
+				<td>{'Kind'|lang}</td>
+				<td>{'Available choices'|lang}</td>
+				<td class="center">{'Required'|lang}</td>
+				<td class="center">{'Type all'|lang}</td>
+				<td class="center">{'Edit'|lang}</td>
+				<td class="center">{'Remove'|lang}</td>
+			</tr>
+				
+			{foreach key=key item=item from=$offers_options name=offers_options}
+				<tr>
+					<td>{$smarty.foreach.offers_options.iteration}</td>
+					<td><b>{$item.name}</b></td>
+					<td class="center">
+						<a href="#" title="{'Position up'|lang}" class="icon icon_position_up ajax {if $smarty.foreach.offers_options.first}inactive{/if}" data-action="position_offers_options" data-id="{$item.id}" data-position="{$item.position}" data-plusminus="+"></a>
+						<a href="#" title="{'Position down'|lang}" class="icon icon_position_down ajax {if $smarty.foreach.offers_options.last}inactive{/if}" data-action="position_offers_options" data-id="{$item.id}" data-position="{$item.position}" data-plusminus="-"></a>
+					</td>
+					<td>{$item.kindName}</td>
+					<td>{$item.select_choices}</td>
+					<td class="center">{if $item.required}{'Yes'|lang}{/if}</td>
+					<td class="center">{if $item.type_all}{'Yes'|lang}{/if}</td>
+					<td class="center"><a href="?action=offers_option&id={$key}" title="{'Edit'|lang}" class="icon icon_edit"></a></td>		
+					<td class="center"><a href="#remove_{$key}" title="{'Remove'|lang}" class="icon icon_remove open_dialog"></a></td>			 				
+				</tr>
+				
+				<div class="dialog" id="remove_{$key}" data-title="{'Remove option'|lang}: {$item.name}">
+					<p>{'Are you sure you want to remove option'|lang}: "{$item.name}"?</p>
+					<form method="post" action="">
+						<input type="hidden" name="action" value="remove_option">
+						<input type="hidden" name="id" value="{$key}">
+						<input type="reset"/>
+						<input type="submit"/>
+					</form>
+				</div>
+
+			{/foreach}		
+		</table>
+		{else}
+		<h2>{'Nothing found'|lang}</h2>
+		{/if}
+		
+	</div>
+	
+

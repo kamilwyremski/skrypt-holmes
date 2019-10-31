@@ -1,0 +1,45 @@
+﻿		
+	<div class="center">
+		<h1>{'Info'|lang}</h1>
+		<p>{'Here you can edit info page'|lang}</p>
+		<br>
+		<a href="?action=info_page" title="{'Add info page'|lang}" class="submit">{'Add info page'|lang}</a>
+		<br><br>
+		{if isset($info)}
+			<table class="table">
+				<tr>
+					<td colspan="10">{'Info'|lang}</td>
+				</tr>
+				<tr>
+					<td>{'Title'|lang}</td>
+					<td class="center">{'Edit'|lang}</td>
+					<td class="center">{'Remove'|lang}</td>
+				</tr>
+					
+				{foreach key=key item=item from=$info name=info}
+					<tr>
+						<td><a href="../{$links.info}/{$item.id},{$item.name_url}" title="{$item.name}" target="_blank">{$item.name}</a></td>
+						<td class="center"><a href="?action=info_page&id={$item.id}" title="{'Edit info page'|lang}" class="icon icon_edit"></a></td>
+						<td class="center">{if !$item.page}<a href="#remove_{$item.id}" title="{'Delete info page'|lang}" class="icon icon_remove open_dialog"></a>{/if}</td>		
+					</tr>
+					
+					<div class="dialog" id="remove_{$item.id}" data-title="{'Delete info page'|lang}: {$item.name}">
+						<p>{'Are you sure you want to delete info page'|lang}: "{$item.name}"?</p>
+						<form method="post" action="">
+							<input type="hidden" name="action" value="remove_info">
+							<input type="hidden" name="id" value="{$item.id}">
+							<input type="reset"/>
+							<input type="submit"/>
+						</form>
+					</div>
+
+				{/foreach}		
+			</table>
+			
+		{else}
+		<h2>{'Nothing found'|lang}</h2>
+		{/if}
+		
+	</div>
+	
+

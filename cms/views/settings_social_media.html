@@ -1,0 +1,24 @@
+	<div class="center">
+		<h1>{'Setting social networks'|lang}</h1>
+		<p>{'Here you can edit the settings of the service'|lang}</p>
+		<br><br>
+		<form action="" method="post">
+			<input type="hidden" name="action" value="save_settings_social_media">
+			<label><h2><input type="checkbox" name="social_facebook" title="{'Show icon sharing from Facebook'|lang}" {if $settings.social_facebook}checked{/if}> {'Show icon sharing from Facebook'|lang}</h2></label>
+			<label><h2><input type="checkbox" name="social_pinterest" title="{'Show icon sharing from Pinterest'|lang}" {if $settings.social_pinterest}checked{/if}> {'Show icon sharing from Pinterest'|lang}</h2></label>
+			<label><h2><input type="checkbox" name="social_twitter" title="{'Show icon sharing from Twitter'|lang}" {if $settings.social_twitter}checked{/if}> {'Show icon sharing from Twitter'|lang}</h2></label>
+			<label><h2><input type="checkbox" name="social_wykop" title="{'Show icon sharing from Wykop.pl'|lang}" {if $settings.social_wykop}checked{/if}> {'Show icon sharing from Wykop.pl'|lang}</h2></label>
+			<hr>
+			<h2>{'Facebook URL'|lang}: <input type="text" name="url_facebook" title="{'Facebook URL'|lang}" value="{$settings.url_facebook}" class="target_facebook_side_panel"></h2>
+			<label><h2><input type="checkbox" name="facebook_side_panel" title="{'Show side panel with Facebook'|lang}" {if $settings.facebook_side_panel}checked{/if} class="set_required" data-target="target_facebook_side_panel"> {'Show side panel with Facebook'|lang}</h2></label>
+			<hr>
+			<h2>{'Facebook - identification of language'|lang}: <input type="text" name="facebook_lang" title="{'Facebook - identification of language'|lang}" value="{$settings.facebook_lang}" required placeholder="pl_PL" style="width:100px"></h2>
+			<label><h2><input type="checkbox" name="facebook_login" title="{'Allow login through Facebook'|lang}" {if $settings.facebook_login}checked{/if} class="set_required" data-target="target_facebook_login"> {'Allow login through Facebook'|lang}</h2></label>
+			<h2>{'Facebook API'|lang}: <input type="text" name="facebook_api" title="{'Facebook API'|lang}" value="{$settings.facebook_api}" class="target_facebook_login"></h2>
+			<h2>{'Facebook Secret'|lang}: <input type="text" name="facebook_secret" title="{'Facebook Secret'|lang}" value="{if $_CMS_TEST_MODE_}test{else}{$settings.facebook_secret}{/if}" class="target_facebook_login"></h2>
+			<br><br>
+			<input type="submit" value="{'Save'|lang}">
+		</form>
+	</div>
+	
+	

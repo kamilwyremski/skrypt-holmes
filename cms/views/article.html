@@ -1,0 +1,47 @@
+﻿<div id="roxyCustomPanel" style="display: none;">
+	<iframe src="js/ckeditor/fileman/index.html?integration=custom" style="width:100%;height:100%" frameborder="0"></iframe>
+</div>
+
+	<div class="center">
+		<h1>{if isset($article)}{'Edit article'|lang}: {$article.name}{else}{'Add article'|lang}{/if}</h1>
+		<p>{'Here you can edit articles'|lang}</p>
+		<br>
+		<form action="" method="post">
+			{if isset($article)}
+				<input type="hidden" name="action" value="edit_article">
+				<input type="hidden" name="id" value="{$article.id}">
+			{else}
+				<input type="hidden" name="action" value="add_article">
+			{/if}
+			<input type="text" name="name" placeholder="{'Title'|lang}" title="{'Here enter title'|lang}" maxlength="64" {if isset($article)}value="{$article.name}"{/if} required autofocus><br>
+			<h3>{'Thumb'|lang}:</h3>			
+			<a href="#" class="open_roxy">
+				<img data-roxy_name="thumb" src="{if isset($article)}{$article.thumb}{else}images/no_image.png{/if}" onerror="this.src='images/no_image.png'" alt="{'Thumb'|lang}" style="max-height: 100px">
+			</a>
+			<br>
+			<input type="text" name="thumb" value="{if isset($article)}{$article.thumb}{/if}" placeholder="{'Thumb'|lang}" title="{'Paste the URL of a thumbnail in the article'|lang}">
+			<h3>{'Short content'|lang}:</h3>
+			<textarea name="content_short" placeholder="{'Short content'|lang}" title="{'Short content'|lang}" maxlength="512">{if isset($article)}{$article.content_short}{/if}</textarea>
+			<h3>{'Content'|lang}:</h3>
+			<textarea name="content" placeholder="{'Content'|lang}" title="{'Content'|lang}">{if isset($article)}{$article.content}{/if}</textarea>
+			<script>
+				{literal}
+					var roxyFileman = 'js/ckeditor/fileman/index.html'; 
+					$(function(){
+						CKEDITOR.replace( 'content',{height: '300px',
+							filebrowserBrowseUrl:roxyFileman,
+							filebrowserImageBrowseUrl:roxyFileman+'?type=image',
+							removeDialogTabs: 'link:upload;image:upload'}); 
+					});
+				{/literal}
+			</script>
+			<h3>{'Keywords SEO'|lang}:</h3>
+			<textarea name="keywords" title="{'Keywords SEO'|lang}" placeholder="{'Keywords SEO'|lang}" maxlength="512">{if isset($article)}{$article.keywords}{/if}</textarea>
+			<h3>{'Description SEO'|lang}:</h3>
+			<textarea name="description" title="{'Description SEO'|lang}" placeholder="{'Description SEO'|lang}" maxlength="512">{if isset($article)}{$article.description}{/if}</textarea>
+			<br><br>
+			<input type="submit" value="{'SAVE!'|lang}">
+			<br><br><br>
+			<p><a href="?action=articles" title="{'Back to the list of articles'|lang}">{'Back to the list of articles'|lang}</a></p>
+		</form>
+	</div>

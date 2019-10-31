@@ -1,0 +1,19 @@
+	<div class="center">
+		<h1>{'Payment settings'|lang}</h1>
+		<p>{'Here you can edit the settings of the service'|lang}</p>
+		<br><br>
+		<form action="" method="post">
+			<input type="hidden" name="action" value="save_settings_payments">
+			<h2>{'Shortcut currency'|lang}: <input type="text" name="currency" placeholder="zł" title="{'Shortcut currency'|lang}" value="{$settings.currency}"></h2>
+			<h2>{'Promoting - the number of days'|lang}: <input type="number" min="1" step="1" name="promote_days" title="{'Promoting - the number of days'|lang}" value="{$settings.promote_days}" class="target_promote_by_dotpay"></h2>
+			<h2>{'The cost of a promote'|lang}: <input type="number" min="0" step="0.01" name="promote_cost" title="{'The cost of a promote'|lang}" value="{$settings.promote_cost}" class="target_promote_by_dotpay"> {$settings.currency}</h2>
+			<hr>
+			<label><h2><input type="checkbox" name="promote_by_dotpay" title="{'Promote by DotPay'|lang}" {if $settings.promote_by_dotpay}checked{/if} class="set_required" data-target="target_promote_by_dotpay"> {'Promote by DotPay'|lang}</h2></label>
+			<h2>{'Dotpay ID'|lang}: <input type="text" name="dotpay_id" title="{'Dotpay ID'|lang}" value="{$settings.dotpay_id}" class="target_promote_by_dotpay"></h2>
+			<h2>{'Dotpay PIN'|lang}: <input type="text" name="dotpay_pin" title="{'Dotpay PIN'|lang}" value="{if $_CMS_TEST_MODE_}test{else}{$settings.dotpay_pin}{/if}" class="target_promote_by_dotpay"></h2>
+			<h2>{'Dotpay currency'|lang}:	<input type="text" name="dotpay_currency" title="{'Dotpay currency'|lang}" value="{$settings.dotpay_currency}" class="target_promote_by_dotpay"></h2>
+			<label><h2><input type="checkbox" name="dotpay_test_mode" title="{'Dotpay Test Mode'|lang}" {if $settings.dotpay_test_mode}checked{/if}> {'Dotpay Test Mode'|lang}</h2></label>
+			<br><br>
+			<input type="submit" value="{'Save'|lang}">
+		</form>
+	</div>

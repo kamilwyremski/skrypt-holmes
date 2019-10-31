@@ -1,0 +1,71 @@
+	<div class="center">
+		<h1>{'General settings'|lang}</h1>
+		<p>{'Here you can edit the settings of the service'|lang}</p>
+		<p>{'Warning! Certain changes can cause problems with your site!'|lang}</p>
+		<br><br>
+		<form action="" method="post">
+			<input type="hidden" name="action" value="save_settings">
+			<h2>{'Base URL'|lang}: <input type="text" name="base_url" placeholder="http://example.com" title="{'Enter the url of the site'|lang}" required value="{$settings.base_url}"></h2>
+			<h2>{'E-mail Administrator'|lang}: <input type="email" name="email" placeholder="example@example.com" title="{'Enter e-mail the site administrator'|lang}" required value="{$settings.email}"></h2>
+			<h2>{'Website language'|lang}: 
+				<select name="lang" title="{'Website language'|lang}">
+					{foreach from=$list_of_lang item=item key=key}
+						<option value="{$item}" {if $item==$settings.lang}selected{/if}>{$item}</option>
+					{/foreach}
+				</select>
+			</h2>
+			<h2>{'Page title'|lang}: <input type="text" name="title" placeholder="Festa..." title="{'Page title'|lang}" required value="{$settings.title}"></h2>
+			<h2>{'Keywords SEO'|lang}: <input type="text" name="keywords" title="{'Keywords SEO'|lang}" value="{$settings.keywords}"></h2>
+			<h2>{'Description SEO'|lang}:</h2>
+			<textarea name="description" title="{'Description SEO'|lang}">{$settings.description}</textarea>
+			<h2>{'Google Analytics code'|lang}:</h2>
+			<textarea name="analytics" title="{'Google Analytics code'|lang}">{$settings.analytics}</textarea>
+			<hr>
+			<label><h2><input type="checkbox" name="add_offers_not_logged" title="{'Allow adding offers by not logged'|lang}" {if $settings.add_offers_not_logged}checked{/if}> {'Allow adding offers by not logged'|lang}</h2></label>
+			<label><h2><input type="checkbox" name="automatically_activate_offers" title="{'Automatically activate added offers'|lang}" {if $settings.automatically_activate_offers}checked{/if}> {'Automatically activate added offers'|lang}</h2></label>
+			<label><h2><input type="checkbox" name="enable_articles" title="{'Enable the display of articles'|lang}" {if $settings.enable_articles}checked{/if}> {'Enable the display of articles'|lang}</h2></label>
+			<label><h2><input type="checkbox" name="rss" title="{'Enable RSS channel'|lang}" {if $settings.rss}checked{/if}> {'Enable RSS channel'|lang}</h2></label>
+			<label><h2><input type="checkbox" name="generate_sitemap" title="{'Automatically generate a site map (sitemap.xml)'|lang}" {if $settings.generate_sitemap}checked{/if}> {'Automatically generate a site map (sitemap.xml)'|lang}</h2></label>
+			<label><h2><input type="checkbox" name="check_ip_user" title="{'Check IP user when logging or adding offers'|lang}" {if $settings.check_ip_user}checked{/if}> {'Check IP user when logging or adding offers'|lang}</h2></label>
+			<hr>
+			<label><h2><input type="checkbox" name="google_maps" title="{'Show Google Maps'|lang}" {if $settings.google_maps}checked{/if} class="set_required" data-target="target_google_maps"> {'Show Google Maps'|lang}</h2></label>
+			<h2>{'Google Maps API'|lang}: <input type="text" name="google_maps_api" title="{'Google Maps API'|lang}" value="{if $smarty.const._CMS_TEST_MODE_}test{else}{$settings.google_maps_api}{/if}" class="target_google_maps"></h2>
+			<h2>{'Google Maps API 2 (for "show on the map")'|lang}: <input type="text" name="google_maps_api2" title="{'Google Maps API'|lang}" value="{if $smarty.const._CMS_TEST_MODE_}test{else}{$settings.google_maps_api2}{/if}"></h2>
+			<h2>{'Latitude'|lang}: <input type="number" step="0.000001" min="-90" max="90" name="google_maps_lat" title="{'Latitude'|lang}" value="{$settings.google_maps_lat}" style="width:120px" class="target_google_maps"></h2>
+			<h2>{'Longitude'|lang}: <input type="number" step="0.000001" min="-180" max="180" name="google_maps_long" title="{'Longitude'|lang}" value="{$settings.google_maps_long}" style="width:120px" class="target_google_maps"></h2>
+			<h2>{'Zoom level (add and edit offer)'|lang}: <input type="number" step="1" min="0" max="19" name="google_maps_zoom_add" title="{'Zoom level (add and edit offer)'|lang}" value="{$settings.google_maps_zoom_add}" class="target_google_maps"></h2>
+			<h2>{'Zoom level (show offer)'|lang}: <input type="number" step="1" min="0" max="19" name="google_maps_zoom_offer" title="{'Zoom level (show offer)'|lang}" value="{$settings.google_maps_zoom_offer}" class="target_google_maps"></h2>
+			<hr>
+			<h2>{'Limit offers per page'|lang}: <input type="number" step="1" min="1" name="limit_page"  title="{'Limit offers per page'|lang}" value="{$settings.limit_page}" required></h2>
+			<h2>{'Limit offers on the home page'|lang}: <input type="number" step="1" min="1" name="limit_page_index" title="{'Limit offers on the home page'|lang}" value="{$settings.limit_page_index}" required></h2>
+			<hr>
+			<label><h2><input type="checkbox" name="show_similar_offer" title="{'Show similar offers'|lang}" {if $settings.show_similar_offer}checked{/if}> {'Show similar offers'|lang}</h2></label>
+			<h2>{'Limit similar offers'|lang}: <input type="number" step="1" min="1" name="limit_similar_offer" title="{'Limit similar offers'|lang}" value="{$settings.limit_similar_offer}" required></h2>
+			<hr>
+			<label><h2><input type="checkbox" name="photo_add" title="{'Allow uploading photos'|lang}" {if $settings.photo_add}checked{/if}> {'Allow uploading photos'|lang}</h2></label>
+			<h2>{'The maximum number of images (0 - unlimited)'|lang}: <input type="number" step="1" min="0" name="photo_max" title="{'The maximum number of images (0 - unlimited)'|lang}" value="{$settings.photo_max}"></h2>
+			<h2>{'The maximum size of photo in kB (0 - unlimited)'|lang}: <input type="number" step="1" min="0" name="photo_max_size" title="{'The maximum size of photo in kB (0 - unlimited)'|lang}" value="{$settings.photo_max_size}"></h2>
+			<h2>{'Maximum height of pictures in px (0 - unlimited)'|lang}: <input type="number" step="1" min="0" name="photo_max_height" title="{'Maximum height of pictures in px (0 - unlimited)'|lang}" value="{$settings.photo_max_height}"></h2>
+			<h2>{'Maximum width of pictures in px (0 - unlimited)'|lang}: <input type="number" step="1" min="0" name="photo_max_width" title="{'Maximum width of pictures in px (0 - unlimited)'|lang}" value="{$settings.photo_max_width}"></h2>
+			<h2>{'Picture JPG quality (scale 0 - 100)'|lang}: <input type="number" step="1" min="0" max="100" name="photo_quality" title="{'Picture JPG quality (scale 0 - 100)'|lang}" value="{$settings.photo_quality}"></h2>
+			<label><h2><input type="checkbox" name="watermark_add" title="{'Add a watermark to photos'|lang}" {if $settings.watermark_add}checked{/if}> {'Add a watermark to photos'|lang}</h2></label>
+			<hr>
+			<label><h2><input type="checkbox" name="hide_data_not_logged" title="{'Hide contact information for not logged'|lang}" {if $settings.hide_data_not_logged}checked{/if}> {'Hide contact information for not logged'|lang}</h2></label>
+			<label><h2><input type="checkbox" name="hide_phone" title="{'Hide phone number'|lang}" {if $settings.hide_phone}checked{/if}> {'Hide phone number'|lang}</h2></label>
+			<label><h2><input type="checkbox" name="hide_email" title="{'Hide e-mail'|lang}" {if $settings.hide_email}checked{/if}> {'Hide e-mail'|lang}</h2></label>
+			<label><h2><input type="checkbox" name="hide_views" title="{'Hide the number of views'|lang}" {if $settings.hide_views}checked{/if}> {'Hide the number of views'|lang}</h2></label>
+			<hr>
+			<label><h2><input type="checkbox" name="mail_attachment" title="{'Allow to post attachments to e-mails'|lang}" {if $settings.mail_attachment}checked{/if}> {'Allow to post attachments to e-mails'|lang}</h2></label>
+			<label><h2><input type="checkbox" name="smtp" title="{'Send emails via SMTP'|lang}" {if $settings.smtp}checked{/if} class="set_required" data-target="target_smtp"> {'Send emails via SMTP'|lang}</h2></label>
+			<h2>{'SMTP host'|lang}: <input type="text" name="smtp_host" title="{'SMTP host'|lang}" value="{$settings.smtp_host}" class="target_smtp"></h2>
+			<h2>{'SMTP e-mail'|lang}: <input type="email" name="smtp_mail" title="{'SMTP e-mail'|lang}" value="{$settings.smtp_mail}" class="target_smtp"></h2>
+			<h2>{'SMTP user'|lang}: <input type="text" name="smtp_user" title="{'SMTP user'|lang}" value="{$settings.smtp_user}" class="target_smtp"></h2>
+			<h2>{'SMTP password'|lang}: <input type="text" name="smtp_password" title="{'SMTP password'|lang}" value="{$settings.smtp_password}" class="target_smtp"></h2>
+			<h2>{'SMTP port'|lang}: <input type="number" min="0" name="smtp_port" title="{'SMTP port'|lang}" value="{$settings.smtp_port}" class="target_smtp"></h2>
+			<h2>{'SMTP secure'|lang}: <input type="text" name="smtp_secure" title="{'SMTP secure'|lang}" value="{$settings.smtp_secure}" class="target_smtp"></h2>
+			<br><br>
+			<input type="submit" value="{'Save'|lang}">
+		</form>
+	</div>
+	
+	

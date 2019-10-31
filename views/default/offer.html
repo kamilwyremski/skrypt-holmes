@@ -1,0 +1,234 @@
+
+{include file="top.tpl"}
+<div itemscope itemtype="https://schema.org/RealEstateAgent">
+	<div class="background_grey page_box" >
+		<div class="container" id="offer">
+			<h1 class="text-center" itemprop="name">{$offer.name}</h1>
+			<p class="text-muted text-center" style="margin-bottom:0">{'Date added'|lang}: {$offer.date|date_format:"%d-%m-%Y"}</p>
+			{if !$settings.hide_views}<p class="text-muted text-center">{'View count'|lang}: {$offer.view.all} ({'unique'|lang}: {$offer.view.unique})</p>{/if}
+			{if !$offer.active}<h4 class="text-danger text-center">{'Offer is not active'|lang}</h4>{/if}
+			{if $user->logged_in && $user->id==$offer.user_id}<h5 class="text-center"><a href="{$links.edit}/{$offer.id},{$offer.name_url}" title="{'Edit offer'|lang}: {$offer.name}" class="text-warning">{'Edit offer'|lang}</a></h5>{/if}
+			{if isset($alert_success)}
+				<div class="alert alert-success" role="alert"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {$alert_success}</div>
+			{elseif isset($alert_danger)}
+				<div class="alert alert-danger" role="alert"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {$alert_danger}</div>
+			{/if}
+			<br>
+			<div class="row">
+				<div class="col-md-9">
+					<div id="offer_box_description">
+						<ul class="nav nav-tabs" role="tablist">
+							<li role="presentation" class="active"><a href="#description" aria-controls="description" role="tab" data-toggle="tab">{'Description'|lang}</a></li>
+							{if isset($offer.options)}
+								<li role="presentation"><a href="#information" aria-controls="information" role="tab" data-toggle="tab">{'Details of offer'|lang}</a></li>
+							{/if}
+							{if !empty($offer.youtube_embed)}
+								<li role="presentation"><a href="#youtube" aria-controls="youtube" role="tab" data-toggle="tab">{'Youtube movie'|lang}</a></li>
+							{/if}
+							{if isset($dotpay_form)}
+								<li role="presentation"><a href="#promote" aria-controls="promote" role="tab" data-toggle="tab">{'Promote'|lang}</a></li>
+							{/if}
+						  </ul>
+						  <div class="tab-content">
+							<div role="tabpanel" class="tab-pane active overflow_auto" id="description" itemprop="description">{$offer.description}</div>
+							{if isset($offer.options)}
+								<div role="tabpanel" class="tab-pane" id="information">
+									<ul class="list-style">
+									{foreach from=$offer.options item=item key=key}
+										<li itemprop="amenityFeature" itemscope itemtype="https://schema.org/LocationFeatureSpecification"><b itemprop="name">{$item.name}:</b> <span itemprop="value">{$item.value}</span></li>
+									{/foreach}
+									</ul>
+								</div>
+							{/if}
+							{if !empty($offer.youtube_embed)}
+								<div role="tabpanel" class="tab-pane" id="youtube">
+									<div><iframe src="https://www.youtube.com/embed/{$offer.youtube_embed}" frameborder="0" allowfullscreen></iframe></div>
+								</div>
+							{/if}
+							{if isset($dotpay_form)}
+								<div role="tabpanel" class="tab-pane" id="promote">
+									{if $offer.promoted}
+										<h4 class="text-success">{'Offer is promoted to'|lang} {$offer.promoted_date_end|date_format:"%d-%m-%Y"}</h4>
+									{else}
+										<h4 class="text-danger">{'Offer is no promoted'|lang}</h4>
+									{/if}
+									<h3>{'Promote offer'|lang}: {$settings.promote_cost|string_format:"%.2f"} {$settings.currency} / {$settings.promote_days} {'days'|lang}</h3>
+									{$dotpay_form}
+									<br>
+								</div>
+							{/if}
+						 </div>
+					</div>				
+				</div>
+				<div class="col-md-3 overflow_auto">
+					{if $settings.ads_side_1}<div class="ads">{$settings.ads_side_1}</div>{/if}
+					<br><br>
+					{if $offer.price}<h3 class="blue"><b>{'Price'|lang}:</b> <span itemprop="priceRange">{$offer.price|number_format:2:',':' '} {$settings.currency}</span></h3>{/if}
+					{if $offer.user}<h5 class="blue">{'Added by'|lang}: <a href="{$links.profile}/{$offer.user.username}" title="{'Profile of'|lang}: {$offer.user.username}">{$offer.user.username}</a></h5>{/if}
+					<p>{if !empty($offer.type.name)}<a href="{$links.offers}/?search&type%5B%5D={$offer.type.name_url}" title="{'Offer type'|lang}: {$offer.type.name}">{$offer.type.name}</a>{/if}{if !empty($offer.type.name) && !empty($offer.kind.name)} | {/if}{if !empty($offer.kind.name)}<a href="{$links.offers}/?search&kind%5B%5D={$offer.kind.name_url}" title="{'Kind'|lang}: {$offer.kind.name}">{$offer.kind.name}</a>{/if}</p>
+					{if !empty($offer.state.name)}<p><a href="{$links.offers}/?search&state%5B%5D={$offer.state.name_url}" title="{'State'|lang}: {$offer.state.name}"><span itemprop="address">{$offer.state.name}</span></a></p>{/if}
+					{if $settings.hide_data_not_logged && !$user->logged_in}
+						<h5><a href="{$links.login}?redirect={$offer.id},{$offer.name_url}" title="{'Log in on the website'|lang}">{'You must be logged in to view contact details'|lang}</a></h5>
+					{else}
+						{if $offer.address}<h5><b>{'Address'|lang}:</b> <span itemprop="address">{$offer.address}</span></h5>{/if}
+						{if $offer.url}<h5><b>{'URL'|lang}:</b> <a href="{$offer.url}" title="{$offer.url}" rel="nofollow" target="_blank"><span itemprop="sameAs">{$offer.url}</span></a></h5>{/if}
+						{if $offer.phone}<h5><b>{'Phone'|lang}:</b> <a href="{if !$settings.hide_phone}tel:{$offer.phone}{/if}" title="{'Call to us'|lang}">{if $settings.hide_phone}<span class="show_hidden_data" data-type="phone" data-data="{$offer.phone}">{'show phone...'|lang}</span>{else}<span itemprop="telephone">{$offer.phone}</span>{/if}</a></h5>{/if}
+						{if $offer.phone_mobile}<h5><b>{'Phone mobile'|lang}:</b> <a href="{if !$settings.hide_phone}tel:{$offer.phone_mobile}{/if}" title="{'Call to us'|lang}">
+						{if $settings.hide_phone}<span class="show_hidden_data" data-type="phone" data-data="{$offer.phone_mobile}">{'show phone...'|lang}</span>{else}<span itemprop="telephone">{$offer.phone_mobile}</span>{/if}</a></h5>{/if}
+						<p><a href="{if !$settings.hide_email}mailto:{$offer.email}{/if}" title="{'Send email to us'|lang}">{if $settings.hide_email}<span class="show_hidden_data" data-type="email" data-data="{$offer.email}">{'show e-mail...'|lang}</span>{else}{$offer.email}{/if}</a></p>
+					{/if}
+					<br>
+					{if $settings.social_facebook}
+						<div class="social_block">
+							<div class="fb-like" data-href="{$settings.base_url}/{$offer.id},{$offer.name_url}" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>		
+						</div>
+					{/if}
+					{if $settings.social_twitter}
+						<div class="social_block">
+							<a href="https://twitter.com/share" class="twitter-share-button" data-url="{$settings.base_url}/{$offer.id},{$offer.name_url}" data-lang="{$settings.lang}">Tweet</a>
+							{literal}
+								<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+							{/literal}
+						</div>
+					{/if}
+					{if $settings.social_wykop}
+						<div class="social_block">
+							<script>
+								var wykop_url=location.href;
+								var wykop_title=encodeURIComponent(document.title);	
+								var wykop_desc=encodeURIComponent('{$settings.description}');
+								var widget_bg='FFFFFF';
+								var widget_type='compact2';
+								var widget_bold=true;
+								var widget_url='https://www.wykop.pl/dataprovider/diggerwidget/?url='+encodeURIComponent(wykop_url)+'&title='+(wykop_title)+'&desc='+(wykop_desc)+'&bg='+(widget_bg)+'&type='+(widget_type)+'&bold='+(widget_bold);
+								document.write('<div><iframe src="'+widget_url+'" style="border:none;width:100px;height:20px;overflow:hidden;margin:0;padding:0;" frameborder="0" border="0"></iframe></div>');
+							</script>
+						</div>
+					{/if}
+					{if $settings.social_pinterest}
+						<div class="social_block">
+							<a href="//www.pinterest.com/pin/create/button/?url={$settings.base_url}/{$offer.id},{$offer.name_url}" data-pin-do="buttonPin" data-pin-config="beside"><img src="//assets.pinterest.com/images/pidgets/pinit_fg_en_rect_gray_20.png" /></a>
+							<script async src="//assets.pinterest.com/js/pinit.js"></script>
+						</div>
+					{/if}
+					{if $settings.ads_side_2}<div class="ads">{$settings.ads_side_2}</div>{/if}
+					<br><br>
+				</div>
+			</div>
+		</div>
+	</div>
+	{if isset($offer.photos)}
+		<link rel="stylesheet" href="js/lightbox/css/lightbox.min.css"/>
+		<script src="js/lightbox/js/lightbox.min.js"></script>	
+		<br><br>
+		<div class="container text-center">
+			{foreach from=$offer.photos item=item key=key name=offer_photos}
+				<a href="upload/photos/{$item.url}" title="{$offer.name}" data-lightbox="slider"><img src="upload/photos/{$item.thumb}" alt="{$offer.name}" class="img-thumbnail offer-thumbnail" onerror="this.src='{$settings.base_url}/views/{$settings.template}/images/no_image.png'" itemprop="image"></a>
+			{/foreach}
+			<br><br><br>
+		</div>
+	{/if}
+	{if $settings.google_maps && $offer.address_lat!=0 && $offer.address_long!=0}
+		<div id="google_maps"></div>
+		{literal}
+		<script>
+			function displayMap() {
+				google.maps.event.addDomListener(window, "load", function() {
+					var myLatlng = new google.maps.LatLng({/literal}{$offer.address_lat},{$offer.address_long}{literal});
+					var map = new google.maps.Map(document.getElementById("google_maps"), {
+						zoom: {/literal}{$settings.google_maps_zoom_offer|default:10}{literal},
+						center: myLatlng,
+						mapTypeId: google.maps.MapTypeId.ROADMAP,
+						scrollwheel:  false
+					});
+					var marker = new google.maps.Marker({
+						position: myLatlng,
+						map: map,
+						title: '{/literal}{$offer.name|replace:"'":""|replace:'"':''}{literal}'
+					});
+				})
+			}
+		</script>
+		{/literal}	
+	{/if}
+	<div class="container">
+		<br><br>
+		<h2 class="text-center">{'Contact form'|lang}</h2>
+		<br>
+		{if isset($info)}
+			<div class="alert alert-success" role="alert" id="js_scroll_page"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {$info}</div><br>
+		{elseif isset($error)}
+			<div class="alert alert-danger" role="alert" id="js_scroll_page"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {$error.alert}</div><br>
+		{/if}
+		<form class="form-horizontal" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="action" value="send_message">
+			<div class="form-group {if isset($error.name)}has-error{/if}">
+				<label for="name" class="col-sm-2 control-label">{'Name'|lang}</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" id="name" name="name" placeholder="{'John Smith'|lang}" required {if isset($input.name)}value="{$input.name}"{/if} title="{'Enter your name'|lang}">
+					{if isset($error.name)}<p class='text-danger'>{$error.name}</p>{/if}
+				</div>
+			</div>
+			<div class="form-group {if isset($error.email)}has-error{/if}">
+				<label for="email" class="col-sm-2 control-label">{'E-mail address'|lang}</label>
+				<div class="col-sm-10">
+					<input type="email" class="form-control" id="email" name="email" placeholder="{'example@example.com'|lang}" required value="{if isset($input.email)}{$input.email}
+					{elseif $user->logged_in}{$user->email}{/if}" title="{'Enter your email address'|lang}">
+					{if isset($error.email)}<p class='text-danger'>{$error.email}</p>{/if}
+				</div>
+			</div>
+			<div class="form-group {if isset($error.message)}has-error{/if}">
+				<label for="message" class="col-sm-2 control-label">{'Message'|lang}</label>
+				<div class="col-sm-10">
+					<textarea class="form-control" rows="4" name="message" id="message" required placeholder="{'My message'|lang}" title="{'Enter your message'|lang}">{if isset($input.message)}{$input.message}{/if}</textarea>
+					{if isset($error.message)}<p class='text-danger'>{$error.message}</p>{/if}
+				</div>
+			</div>
+			{if $settings.mail_attachment}
+				<div class="form-group">
+					<label for="attachment" class="col-sm-2 control-label">{'Attachment'|lang}</label>
+					<div class="col-sm-10">
+						<span class="btn btn-default btn-file"><input type="file" name="attachment" id="attachment" title="{'Here you can add an attachment to your message'|lang}"></span>
+					</div>
+				</div>
+			{/if}
+			<div class="form-group {if isset($error.captcha)}has-error{/if}">
+				<label for="captcha" class="col-sm-2 control-label">{'Captcha'|lang}</label>
+				<div class="col-sm-2">
+					<img src="php/captcha.php" alt="captcha">
+				</div>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" placeholder="abc123" title="{'Enter the code Captcha'|lang}" name="captcha" id="captcha" required maxlength="32">
+					{if isset($error.captcha)}<p class='text-danger'>{$error.captcha}</p>{/if}
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-10 col-sm-offset-2">
+					{if isset($error.rules)}
+						<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign"></span> {$error.rules}</div>
+					{/if}
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" name="rules" required {if isset($smarty.post.rules)}checked{/if}>{'Accepts the terms and conditions and the privacy policy'|lang}
+							<p><a href="{$links.info}/2,{$settings.url_rules}" title="{'Terms of service'|lang}" target="_blank">{'Terms of service'|lang}</a> - <a href="{$links.info}/1,{$settings.url_privacy_policy}" title="{'Privacy policy'|lang}" target="_blank">{'Privacy policy'|lang}</a></p>
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-10 col-sm-offset-2">
+					<input type="submit" value="{'Send!'|lang}" class="btn btn-primary">
+				</div>
+			</div>
+		</form>
+		<br><br><br>
+	</div>
+	{if !empty($offers)}
+		<div class="container">
+			<h2 class="text-center">{'Similar offers'|lang}</h2>
+			{include file="offers_index.tpl"}
+		</div>
+	{/if}
+</div>
+{include file="footer.tpl"}
+

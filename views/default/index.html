@@ -1,0 +1,60 @@
+
+{include file="top.tpl"}
+
+<div class="page_box">
+	{if isset($slider)}
+		<div id="slider" class="carousel slide hidden-xs" data-ride="carousel">
+			<div class="carousel-inner" role="listbox">
+				{foreach from=$slider item=item key=key name=slider}
+					<div class="item {if $smarty.foreach.slider.iteration==1}active{/if}">
+						{$item}
+					</div>
+				{/foreach}
+			</div>
+			<a class="left carousel-control" href="#slider" role="button" data-slide="prev">
+				<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+				<span class="sr-only">Previous</span>
+			</a>
+			<a class="right carousel-control" href="#slider" role="button" data-slide="next">
+				<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+				<span class="sr-only">Next</span>
+			</a>
+		</div>
+	{/if}
+
+	{include file="search_main.tpl"}
+	
+	{if $settings.ads_1}<div class="ads">{$settings.ads_1}</div>{/if}
+	
+	{if isset($offers)}
+		<div class="container">
+			{include file="offers_index.tpl"}
+			<br><br>
+			<div class="text-center">	
+				<a href="{$links.offers}" title="{'Search the best offers'|lang}" class="btn btn-primary">{'See all offers'|lang}</a>
+			</div>
+		</div>
+	{/if}
+	
+	{if $settings.ads_2}<div class="ads">{$settings.ads_2}</div>{/if}
+	
+	{if $index_page.text_1}
+		<div id="index_text_1">
+			<div class="site_text">
+				{$index_page.text_1}
+			</div>
+		</div>
+	{/if}
+	
+	{if $settings.ads_3}<div class="ads">{$settings.ads_3}</div>{/if}
+	
+	{if isset($articles)}
+		<div class="container">
+			<br><br><h3 class="text-center">{'Recent articles'|lang}</h3>
+			<br><br>
+			{include file="articles.tpl"}
+		</div>
+	{/if}
+</div>
+
+{include file="footer.tpl"}

@@ -1,0 +1,59 @@
+
+<div class="container text-center">
+	<div class="row">
+		<div class="col-md-4" id="registration_box">
+			{if isset($form_complete_data)}
+				<form method="post">
+					<input type="hidden" name="action" value="complete_data">
+					<h1>{$settings.title}</h1>
+					<h3>{'Complete data'|lang}</h3>
+					{if isset($error.username)}
+						<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign"></span> {$error.username}</div>
+					{/if}
+					<div class="form-group {if isset($error.username)}has-error{/if}">
+						<label for="username">{'Username'|lang}</label>
+						<input type="text" class="form-control" name="username" placeholder="{'Username'|lang}" id="username" required maxlength="64" {if isset($smarty.post.username)}value="{$smarty.post.username}"{/if} title="{'Enter your username'|lang}" pattern="[a-z0-9-_]+">
+					</div>
+					<input type="submit" class="btn btn-default" value="{'SAVE!'|lang}"><br>
+					<br><br>
+					<ul class="list-unstyled">
+						<li><a href="{$links.register}" title="{'Registration on the website'|lang}">{'Register'|lang}</a></li>
+						<li><a href="{$links.reset_password}" title="{'Reset password'|lang}">{'Reset password'|lang}</a></li>
+						<li><a href="{$settings.base_url}" title="{$settings.title}">{'Return to the site'|lang}</a></li>
+					</ul>
+				</form>
+			{else}
+				<form method="post">
+					<input type="hidden" name="action" value="login">
+					<input type="hidden" name="session_code" value="{$session_code}">
+					<h1>{$settings.title}</h1>
+					<h3>{'Log in'|lang}</h3>
+					{if isset($info)}
+						<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-exclamation-sign"></span> {$info}</div>
+					{elseif isset($error)}
+						<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign"></span> {$error}</div>
+					{/if}
+					<br>
+					<div class="form-group">
+						<label for="username">{'Username / email'|lang}</label>
+						<input type="text" class="form-control" name="username" placeholder="{'example@example.com'|lang}" id="username" required title="{'Enter your username or e-mail'|lang}">
+					</div>
+					<div class="form-group">
+						<label for="password">{'Password'|lang}</label>
+						<input type="password" class="form-control" name="password" placeholder="****" id="password" required title="{'Enter your password'|lang}">
+					</div>
+					<input type="submit" class="btn btn-default" value="{'LOG IN !'|lang}">
+					{if isset($url_facebook)}
+						<br><br><a href="{$url_facebook}" title="{'LOG IN BY FB!'|lang}" class="btn btn-primary">{'LOG IN BY FB!'|lang}</a>
+					{/if}	
+					<br><br>
+					<ul class="list-unstyled">
+						<li><a href="{$links.register}" title="{'Registration on the website'|lang}">{'Register'|lang}</a></li>
+						<li><a href="{$links.reset_password}" title="{'Reset password'|lang}">{'Reset password'|lang}</a></li>
+						<li><a href="{$settings.base_url}" title="{$settings.title}">{'Return to the site'|lang}</a></li>
+					</ul>
+				</form>
+			{/if}
+		</div>
+	</div>
+</div>

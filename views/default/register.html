@@ -1,0 +1,71 @@
+
+<div class="container text-center">
+	<div class="row">
+		<div class="col-md-4" id="registration_box">
+			<form method="post">
+				<input type="hidden" name="action" value="register">
+				<h1>{$settings.title}</h1>
+				<h3>{'Register'|lang}</h3>
+				<br>
+				{if isset($error.email)}
+					<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign"></span> {$error.email}</div>
+				{/if}
+				<div class="form-group {if isset($error.email)}has-error{/if}">
+					<label for="email">{'E-mail address'|lang}</label>
+					<input type="email" class="form-control" name="email" placeholder="{'example@example.com'|lang}" id="email" required maxlength="64" {if isset($smarty.post.email)}value="{$smarty.post.email}"{/if} title="{'Enter your email address'|lang}">
+				</div>
+				{if isset($error.username)}
+					<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign"></span> {$error.username}</div>
+				{/if}
+				<div class="form-group {if isset($error.username)}has-error{/if}">
+					<label for="username">{'Username'|lang}</label>
+					<input type="text" class="form-control" name="username" placeholder="{'Username'|lang}" id="username" required maxlength="64" {if isset($smarty.post.username)}value="{$smarty.post.username}"{/if} title="{'Enter your username'|lang}" pattern="[a-z0-9-_]+">
+				</div>
+				{if isset($error.password)}
+					<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign"></span> {$error.password}</div>
+				{/if}
+				<div class="form-group {if isset($error.password)}has-error{/if}">
+					<label for="password">{'Password'|lang}</label>
+					<input type="password" class="form-control" name="password" placeholder="****" id="password" required maxlength="32" {if isset($smarty.post.password)}value="{$smarty.post.password}"{/if} title="{'Enter your password'|lang}">
+				</div>
+				<div class="form-group {if isset($error.password)}has-error{/if}">
+					<label for="password_repeat">{'Repeat password'|lang}</label>
+					<input type="password" class="form-control" name="password_repeat" placeholder="****" id="password_repeat" required maxlength="32" title="{'Here repeat your password'|lang}">
+				</div>
+				{if isset($error.rules)}
+					<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign"></span> {$error.rules}</div>
+				{/if}
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="rules" required {if isset($smarty.post.rules)}checked{/if}>{'Accepts the terms and conditions and the privacy policy'|lang}
+						<p><a href="{$links.info}/2,{$settings.url_rules}" title="{'Terms of service'|lang}" target="_blank">{'Terms of service'|lang}</a> - <a href="{$links.info}/1,{$settings.url_privacy_policy}" title="{'Privacy policy'|lang}" target="_blank">{'Privacy policy'|lang}</a></p>
+					</label>
+				</div>
+				{if isset($error.captcha)}
+					<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign"></span> {$error.captcha}</div>
+				{/if}
+				<div class="form-group {if isset($error.captcha)}has-error{/if}">
+					<label for="captcha">{'Enter the code Captcha'|lang}</label>
+					<br>
+					<div class="col-sm-6">
+						<img src="php/captcha.php" alt="captcha" style="padding-top:2px">
+					</div>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" placeholder="abc123" title="{'Enter the code Captcha'|lang}" name="captcha" id="captcha" required maxlength="32" title="{'Enter the code Captcha'|lang}">
+					</div>
+				</div>
+				<br><br>
+				<input type="submit" class="btn btn-default" value="{'REGISTER!'|lang}">
+				{if isset($url_facebook)}
+					<br><br><a href="{$url_facebook}" title="{'LOG IN BY FB!'|lang}" class="btn btn-primary">{'LOG IN BY FB!'|lang}</a>
+				{/if}				
+				<br><br>
+				<ul class="list-unstyled">
+					<li><a href="{$links.login}" title="{'Log in on the website'|lang}">{'Log in'|lang}</a></li>
+					<li><a href="{$links.reset_password}" title="{'Reset password'|lang}">{'Reset password'|lang}</a></li>
+					<li><a href="{$settings.base_url}" title="{$settings.title}">{'Return to the site'|lang}</a></li>
+				</ul>
+			</form>
+		</div>
+	</div>
+</div>

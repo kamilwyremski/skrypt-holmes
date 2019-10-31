@@ -1,0 +1,63 @@
+<link rel="stylesheet" href="js/jqplot/jquery.jqplot.css" />
+<script src="js/jqplot/jquery.jqplot.min.js"></script>
+<script src="js/jqplot/jqplot.highlighter.min.js"></script>
+<script src="js/jqplot/jqplot.dateAxisRenderer.min.js"></script>
+<script src="js/jqplot.statistics.js"></script>
+
+	<div class="center">
+		<h1>{'Site statistics'|lang}</h1>
+		<br><br>
+		<table class="table" id="table_statistics">
+			<tr>
+				<td colspan="4">{'Overall stats'|lang}</td>
+			</tr>
+			<tr>
+				<td><b>{'Users'|lang}:</b></td>
+				<td><b>{$statistics.users}</b></td>
+				<td><b>{'Sends mails'|lang}:</b></td>
+				<td><b>{$statistics.logs_mails}</b></td>
+			</tr>
+			<tr>
+				<td> - {'by Facebook'|lang}:</td>
+				<td>{$statistics.users_register_fb}</td>
+				<td><b>{'User logins'|lang}:</b></td>
+				<td><b>{$statistics.logs_users}</b></td>
+			</tr>
+			<tr>
+				<td><b>{'Offers'|lang}:</b></td>
+				<td><b>{$statistics.offers}</b></td>
+				<td><b>{'Views offers'|lang}:</b></td>
+				<td><b>{$statistics.logs_offers}</b></td>
+			</tr>
+			<tr>
+				<td> - {'active'|lang}:</td>
+				<td>{$statistics.offers_active}</td>
+				<td>{'Photos'|lang}:</td>
+				<td>{$statistics.photos}</td>
+			</tr>
+		</table>	
+		<div id="statistics" class="center">
+			<select id="statitics_select_1" title="{'Choose what should present the blue line'|lang}">
+				<option value=""> -- </option>
+				<option value="logins">{'Logins'|lang}</option>
+				<option value="unique_logins" selected>{'Unique logins'|lang}</option>
+				<option value="registration">{'Registration users'|lang}</option>
+				<option value="activation_users">{'Activation users'|lang}</option>
+				<option value="offers">{'Added offers'|lang}</option>
+				<option value="views_offers">{'Views offers'|lang}</option>
+			</select>
+			<select id="statitics_select_2" title="{'Choose what should present the orange line'|lang}">
+				<option value=""> -- </option>
+				<option value="logins">{'Logins'|lang}</option>
+				<option value="unique_logins">{'Unique logins'|lang}</option>
+				<option value="registration">{'Registration users'|lang}</option>
+				<option value="activation_users">{'Activation users'|lang}</option>
+				<option value="offers" selected>{'Added offers'|lang}</option>
+				<option value="views_offers">{'Views offers'|lang}</option>
+			</select>
+			<input id="statistics_date_from" title="{'Select the starting date for analysis'|lang}" type="date" value="{($smarty.now-2592000)|date_format:'%Y-%m-%d'}" max="{$smarty.now|date_format:'%Y-%m-%d'}">
+			<input id="statistics_date_to" title="{'Select the end date for analysis'|lang}" type="date" value="{$smarty.now|date_format:'%Y-%m-%d'}" max="{$smarty.now|date_format:'%Y-%m-%d'}">
+			<input id="statistics_generate" type="submit" value="{'GENERATE!'|lang}">
+			<div id="jqplot"></div>
+		</div>
+	</div>

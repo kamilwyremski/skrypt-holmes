@@ -1,0 +1,50 @@
+﻿		
+	<div class="center">
+		<h1>{'Articles'|lang}</h1>
+		<p>{'Here you can edit articles'|lang}</p>
+		{if !$settings.enable_articles}<p><b>{'Warning! Displaying articles is turned off in the settings.'|lang}</b></p>{/if}
+		<br>
+		<a href="?action=article" title="{'Add article'|lang}" class="submit">{'Add article'|lang}</a>
+		<br><br>
+		{if isset($articles)}
+			<table class="table">
+				<tr>
+					<td colspan="10">{'articles'|lang}</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>{'Title'|lang}</td>
+					<td class="center">{'Date'|lang}</td>
+					<td class="center">{'Edit'|lang}</td>
+					<td class="center">{'Remove'|lang}</td>
+				</tr>
+					
+				{foreach key=key item=item from=$articles name=articles}
+					<tr>
+						<td class="center">{$smarty.foreach.articles.iteration}</td>
+						<td><a href="../{$links.article}/{$item.id},{$item.name_url}" title="{$item.name}" target="_blank">{$item.name}</a></td>
+						<td class="center">{$item.date|date_format:"%d-%m-%Y"}</td>
+						<td class="center"><a href="?action=article&id={$item.id}" title="{'Edit article'|lang}" class="icon icon_edit"></a></td>
+						<td class="center"><a href="#remove_{$item.id}" title="{'Delete article'|lang}" class="icon icon_remove open_dialog"></a></td>						
+					</tr>
+					
+					<div class="dialog" id="remove_{$item.id}" data-title="{'Delete article'|lang}: {$item.name}">
+						<p>{'Are you sure you want to delete article'|lang}: "{$item.name}"?</p>
+						<form method="post" action="">
+							<input type="hidden" name="action" value="remove_article">
+							<input type="hidden" name="id" value="{$item.id}">
+							<input type="reset"/>
+							<input type="submit"/>
+						</form>
+					</div>
+
+				{/foreach}		
+			</table>
+			
+		{else}
+		<h2>{'Nothing found'|lang}</h2>
+		{/if}
+		
+	</div>
+	
+
