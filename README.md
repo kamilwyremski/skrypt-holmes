@@ -1,4 +1,4 @@
-# holmes
+# Skrypt bazy nieruchomości Holmes
 Skrypt bazy nieruchomości Holmes
  
 Więcej informacji o skrypcie: https://blog.wyremski.pl/skrypt-bazy-nieruchomosci-holmes/
