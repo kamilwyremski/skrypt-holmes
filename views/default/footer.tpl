@@ -34,9 +34,9 @@
 		</div>
 	</div>
 	<div id="footer_bottom" class="text-center">
+		<!-- MIT licensed script. Deleting software author information is prohibited -->
 		{$settings.footer_bottom}
 		{$settings.footer_text}
-		
 	</div>
 </footer>
 
